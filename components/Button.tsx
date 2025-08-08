@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   buttonText: {
+    lineHeight: 24,
     fontSize: 16,
     fontWeight: "bold",
     color: "#1D1D1D",

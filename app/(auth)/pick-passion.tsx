@@ -9,39 +9,51 @@ import {
   View,
 } from "react-native";
 
+import Book from "@/assets/images/Book.svg"; // Example SVG import
 import PassionCard from "@/components/PassionCard";
 import Button from "../../components/Button";
 import Title from "../../components/Title";
 
+import Comics from "@/assets/images/Comics.svg";
+import Game from "@/assets/images/Game.svg";
+import Movie from "@/assets/images/Movie.svg"; // Example SVG import
+import Podcast from "@/assets/images/Playlist.svg";
+import Music from "@/assets/images/Sound.svg";
+
 const passionsData = [
   {
     id: 1,
-    icon: "book-outline",
+    icon: <Book width={13.33} height={16.67} />,
     label: "Books & literature",
     color: "#EDD358",
   },
-  { id: 2, icon: "film-outline", label: "Movies & TV Shows", color: "#78C4E0" },
+  {
+    id: 2,
+    icon: <Movie width={13.33} height={16.67} />,
+    label: "Movies & TV Shows",
+    color: "#78C4E0",
+  },
   {
     id: 3,
-    icon: "headset-outline",
+    icon: <Music width={13.33} height={16.67} />,
     label: "Podcasts & Audio",
     color: "#ECA9F2",
   },
   {
     id: 4,
-    icon: "game-controller-outline",
+    icon: <Game width={13.33} height={16.67} />,
     label: "Games & Esports",
     color: "#8ACC8B",
   },
   {
     id: 5,
-    icon: "musical-notes-outline",
+    icon: <Podcast width={13.33} height={16.67} />,
     label: "Music & Playlists",
     color: "#ECA9F2",
   },
   {
     id: 6,
-    icon: "color-palette-outline",
+    icon: <Comics width={13.33} height={16.67} />,
     label: "Comics & Graphic Novels",
     color: "#EDD358",
   },
@@ -52,7 +64,7 @@ export default function PickPassionScreen() {
 
   const handleContinue = () => {
     console.log("Continue to next step");
-    router.push("/(auth)/personal-info");
+    router.push("/(auth)/login");
   };
 
   return (
@@ -84,7 +96,7 @@ export default function PickPassionScreen() {
             {passionsData.map((item) => (
               <PassionCard
                 key={item.id}
-                icon={item.icon as keyof typeof Ionicons.glyphMap}
+                icon={item.icon}
                 label={item.label}
                 color={item.color}
                 onPress={() => console.log(`Selected: ${item.label}`)}
@@ -95,7 +107,7 @@ export default function PickPassionScreen() {
 
         {/* Continue Button at bottom */}
         <View style={styles.buttonWrapper}>
-          <Button title="Let’s start" onPress={handleContinue} />
+          <Button paddingX={19} title="Let’s start" onPress={handleContinue} />
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -110,17 +122,18 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 20,
     paddingTop: 50,
-    paddingBottom: 100, // space for button
+    // space for button
   },
   backIcon: {
     paddingVertical: 10,
   },
   headerWrapper: {
     marginTop: 28,
-    marginBottom: 32,
+    marginBottom: 40,
   },
   cardsWrapper: {
     flexDirection: "column",
+    paddingHorizontal: 28,
   },
   buttonWrapper: {
     paddingHorizontal: 20,

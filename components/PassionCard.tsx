@@ -1,9 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-// Adjust the path as necessary
+
 interface PassionCardProps {
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: React.ReactNode; // Now accepts any React element (SVG)
   label: string;
   color: string;
   onPress?: () => void;
@@ -21,12 +20,7 @@ export default function PassionCard({
         style={[styles.card, { backgroundColor: color }]}
         onPress={onPress}
       >
-        <Ionicons
-          name={icon}
-          size={20}
-          color="#000"
-          style={{ marginRight: 10 }}
-        />
+        <View style={styles.iconWrapper}>{icon}</View>
         <Text style={styles.label}>{label}</Text>
       </TouchableOpacity>
     </View>
@@ -39,19 +33,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     paddingHorizontal: 16,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "#000",
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
+    borderRadius: 16, // Radius-SM
+    borderWidth: 1,
+    borderColor: "#1D1D1D",
+    marginBottom: 12,
+    shadowColor: "#404040", // NeuralNeural-700 equivalent
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 3, // Android shadow
+  },
+  iconWrapper: {
+    marginRight: 10,
   },
   label: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#1D1D1D",
+    lineHeight: 26,
   },
 });

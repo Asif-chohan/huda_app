@@ -9,10 +9,15 @@ interface Props {
 export default function AuthTitle({ title, subtitle, fontSize }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, fontSize !== undefined ? { fontSize } : undefined]}>{title}</Text>
-      {subtitle ? (
-        <Text style={styles.subtitle}>{subtitle}</Text>
-      ) : null}
+      <Text
+        style={[
+          styles.title,
+          fontSize !== undefined ? { fontSize } : undefined,
+        ]}
+      >
+        {title}
+      </Text>
+      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
     </View>
   );
 }
@@ -31,6 +36,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
+    lineHeight: 24,
     color: "#797470",
     fontWeight: "400",
     textAlign: "center",

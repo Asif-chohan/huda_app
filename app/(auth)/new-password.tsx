@@ -11,19 +11,18 @@ import {
 } from "react-native";
 
 import GoBack from "@/assets/images/GoBack.svg";
-import Eye from "@/assets/images/Password.svg";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import Title from "../../components/Title";
 export default function SignupScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
 
   const router = useRouter();
 
   const handleContinue = () => {
     console.log("Continue to next step");
-    router.push("/(auth)/personal-info");
+    router.push("/(auth)/onboarding");
   };
 
   return (
@@ -42,45 +41,39 @@ export default function SignupScreen() {
 
         {/* Title & Subtitle */}
         <View style={styles.headerWrapper}>
-          <Title
-            title="Let’s start with email"
-            subtitle="We’re excited to have you on board!"
-          />
+          <Title title="Enter new password" />
         </View>
 
         {/* Inputs */}
         <View style={styles.inputWrapper}>
-          <TextInput label="Email" value={email} onChangeText={setEmail} />
-          <View style={styles.inputPassword}>
-            <TextInput
-              label="Password"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-              endIcon={<Eye />}
-            />
-          </View>
+          <TextInput
+            label="New password"
+            secureTextEntry
+            value={newPassword}
+            onChangeText={setNewPassword}
+          />
           <Text style={styles.helperText}>
             Must be at least 8 characters long
           </Text>
+          <View style={styles.inputPassword}>
+            <TextInput
+              label="Current password"
+              secureTextEntry
+              value={currentPassword}
+              onChangeText={setCurrentPassword}
+            />
+          </View>
+          <Text style={styles.helperText}>Password matched</Text>
         </View>
 
         {/* Continue Button */}
         <View style={styles.buttonWrapper}>
           <Button
-            title="Continue"
+            title="Save Password"
             onPress={handleContinue}
-            // disabled={!email || password.length < 8}
+            paddingX={34.5}
           />
         </View>
-
-        {/* Terms */}
-        <Text style={styles.terms}>
-          By continuing to use the Huda app, you agree to our{" "}
-          <Text style={styles.link}>Terms of Service</Text> and{" "}
-          <Text style={styles.link}>Privacy Policy</Text>, ensuring a smooth and
-          secure experience.
-        </Text>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -102,13 +95,13 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   inputWrapper: {
-    marginTop: 41,
+    marginTop: 40,
   },
   inputPassword: {
-    marginTop: 8,
+    marginTop: 12,
   },
   buttonWrapper: {
-    marginTop: 41,
+    marginTop: 40,
   },
   helperText: {
     fontSize: 12,
@@ -120,20 +113,17 @@ const styles = StyleSheet.create({
     // marginBottom: 8,
   },
   terms: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "400",
     color: "#797470",
     textAlign: "center",
     marginTop: "auto",
     paddingBottom: 12,
-    lineHeight: 20,
-    letterSpacing: -0.23,
   },
   link: {
-    fontSize: 15,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "700",
     color: "#864AE3",
     textDecorationLine: "none",
-    lineHeight: 20,
   },
 });

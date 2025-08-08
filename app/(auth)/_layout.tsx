@@ -4,9 +4,15 @@ export default function AuthLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
+
       <Stack.Screen name="personal-info" />
       <Stack.Screen name="link-account" />
       <Stack.Screen name="pick-passion" />
+      <Stack.Screen name="login" />
+      <Stack.Screen name="restore-password" />
+      <Stack.Screen name="new-password" />
+      <Stack.Screen name="onboarding" />
+      <Stack.Screen name="swipe-screen" />
     </Stack>
   );
 }

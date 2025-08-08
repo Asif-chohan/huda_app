@@ -1,4 +1,3 @@
-import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -11,6 +10,8 @@ import {
   View,
 } from "react-native";
 
+import Down from "@/assets/images/Down.svg";
+import GoBack from "@/assets/images/GoBack.svg";
 import BottomModal from "@/components/BottomModal";
 import ProfilePhoto from "@/components/ProfilePhoto";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -61,7 +62,7 @@ export default function PersonalInfoScreen() {
       >
         {/* Back Button */}
         <Pressable style={styles.backIcon} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={28} color="#1D1D1D" />
+          <GoBack width={24} height={24} />
         </Pressable>
 
         {/* Title */}
@@ -93,7 +94,7 @@ export default function PersonalInfoScreen() {
                   setModalVisible(true);
                 }}
               >
-                <Entypo name="chevron-small-down" size={24} color="#1D1D1D" />
+                <Down />
               </Pressable>
             }
           />
@@ -116,7 +117,7 @@ export default function PersonalInfoScreen() {
                   setModalVisible(true);
                 }}
               >
-                <Entypo name="chevron-small-down" size={24} color="#1D1D1D" />
+                <Down />
               </Pressable>
             }
           />
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   backIcon: {
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   photoUpload: {
     alignItems: "center",

@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import GoBack from "@/assets/images/GoBack.svg";
-import Eye from "@/assets/images/Password.svg";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import Title from "../../components/Title";
@@ -23,7 +22,7 @@ export default function SignupScreen() {
 
   const handleContinue = () => {
     console.log("Continue to next step");
-    router.push("/(auth)/personal-info");
+    router.push("/(auth)/restore-password");
   };
 
   return (
@@ -42,10 +41,7 @@ export default function SignupScreen() {
 
         {/* Title & Subtitle */}
         <View style={styles.headerWrapper}>
-          <Title
-            title="Let’s start with email"
-            subtitle="We’re excited to have you on board!"
-          />
+          <Title title="Log in" subtitle="We're excited to see you back!" />
         </View>
 
         {/* Inputs */}
@@ -57,29 +53,20 @@ export default function SignupScreen() {
               secureTextEntry
               value={password}
               onChangeText={setPassword}
-              endIcon={<Eye />}
             />
           </View>
-          <Text style={styles.helperText}>
-            Must be at least 8 characters long
-          </Text>
+          <Text style={styles.helperText}>Forgot password?</Text>
         </View>
 
         {/* Continue Button */}
         <View style={styles.buttonWrapper}>
-          <Button
-            title="Continue"
-            onPress={handleContinue}
-            // disabled={!email || password.length < 8}
-          />
+          <Button title="Log in" onPress={handleContinue} paddingX={34.5} />
         </View>
 
         {/* Terms */}
         <Text style={styles.terms}>
-          By continuing to use the Huda app, you agree to our{" "}
-          <Text style={styles.link}>Terms of Service</Text> and{" "}
-          <Text style={styles.link}>Privacy Policy</Text>, ensuring a smooth and
-          secure experience.
+          Don’t have an account?
+          <Text style={styles.link}>Sign up here</Text>
         </Text>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -102,38 +89,35 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   inputWrapper: {
-    marginTop: 41,
+    marginTop: 40,
   },
   inputPassword: {
-    marginTop: 8,
+    marginTop: 12,
   },
   buttonWrapper: {
-    marginTop: 41,
+    marginTop: 40,
   },
   helperText: {
-    fontSize: 12,
-    color: "#1D1D1D",
+    fontSize: 16,
+    color: "#864AE3",
     marginTop: 8,
-    fontWeight: "400",
+    fontWeight: "700",
     // alignItems: "center",
     marginLeft: 16,
     // marginBottom: 8,
   },
   terms: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "400",
     color: "#797470",
     textAlign: "center",
     marginTop: "auto",
     paddingBottom: 12,
-    lineHeight: 20,
-    letterSpacing: -0.23,
   },
   link: {
-    fontSize: 15,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "700",
     color: "#864AE3",
     textDecorationLine: "none",
-    lineHeight: 20,
   },
 });
