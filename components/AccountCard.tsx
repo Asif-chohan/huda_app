@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
   icon: any;
@@ -10,16 +10,15 @@ interface Props {
 export default function AccountCard({ icon, label, onPress, isPlus }: Props) {
   return (
     <View style={styles.card}>
-
       <View style={styles.content}>
-      <View style={[styles.iconWrapper, isPlus && styles.plusWrapper]}>
-          <Image source={icon} style={styles.icon} resizeMode="contain" />
+        <View style={[styles.iconWrapper, isPlus && styles.plusWrapper]}>
+          {/* <Image source={icon} style={styles.icon} resizeMode="contain" /> */}
+          {icon}
         </View>
-        <TouchableOpacity  onPress={onPress}>
-        <Text style={styles.label}>{label}</Text>
+        <TouchableOpacity onPress={onPress}>
+          <Text style={styles.label}>{label}</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
@@ -44,8 +43,8 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     backgroundColor: "#F8F3EF",
-    borderRadius: 9999, 
-    padding: 12, 
+    borderRadius: 9999,
+    padding: 12,
     justifyContent: "center",
     alignItems: "center",
   },

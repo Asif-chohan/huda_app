@@ -4,9 +4,15 @@ interface Props {
   title: string;
   subtitle?: string | null;
   fontSize?: number;
+  mt?: number; // new margin top prop
 }
 
-export default function AuthTitle({ title, subtitle, fontSize }: Props) {
+export default function AuthTitle({
+  title,
+  subtitle,
+  fontSize,
+  mt = 4,
+}: Props) {
   return (
     <View style={styles.container}>
       <Text
@@ -17,7 +23,9 @@ export default function AuthTitle({ title, subtitle, fontSize }: Props) {
       >
         {title}
       </Text>
-      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      {subtitle ? (
+        <Text style={[styles.subtitle, { marginTop: mt }]}>{subtitle}</Text>
+      ) : null}
     </View>
   );
 }
