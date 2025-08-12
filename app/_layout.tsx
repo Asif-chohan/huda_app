@@ -4,14 +4,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DarkTheme,
   DefaultTheme,
-  ThemeProvider,
+  // ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
-
+import { ThemeProvider } from "@/theme/themeContext";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loading, setLoading] = useState(true);
@@ -56,7 +56,7 @@ export default function RootLayout() {
   // }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider>
       <Stack screenOptions={{ headerShown: false }}>
         {isFirstLaunch ? (
           // First-time launch → onboarding stack
@@ -70,12 +70,6 @@ export default function RootLayout() {
         )}
         <Stack.Screen name="+not-found" />
       </Stack>
-      {/* <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="(onboarding)" />
-        <Stack.Screen name="+not-found" />
-      </Stack> */}
 
       <StatusBar style="auto" />
     </ThemeProvider>
