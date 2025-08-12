@@ -1,17 +1,12 @@
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useUserStore } from "@/store/userStore"; // <-- your Zustand or Redux store
+import { ThemeProvider } from "@/theme/themeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  DarkTheme,
-  DefaultTheme,
-  // ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
-import { ThemeProvider } from "@/theme/themeContext";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loading, setLoading] = useState(true);
@@ -22,7 +17,12 @@ export default function RootLayout() {
   // Load fonts
   const [fontsLoaded] = useFonts({
     ArchivoBlack: require("../assets/fonts/ArchivoBlack-Regular.ttf"),
-    Inter: require("../assets/fonts/InterDisplay-Regular.ttf"),
+    InterLight: require("../assets/fonts/Inter-Light.otf"),
+    InterRegular: require("../assets/fonts/Inter-Regular.otf"),
+    InterMedium: require("../assets/fonts/Inter-Medium.otf"),
+    InterSemiBold: require("../assets/fonts/Inter-SemiBold.otf"),
+    InterBold: require("../assets/fonts/Inter-Bold.otf"),
+    InterHeavy: require("../assets/fonts/Inter-ExtraBold.otf"),
   });
 
   useEffect(() => {

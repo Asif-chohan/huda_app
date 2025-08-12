@@ -1,3 +1,6 @@
+import { COLORS } from "@/theme/Color";
+import { fontToDp, heightToDp, widthToDp } from "@/theme/responsiveUtility";
+import { useTheme } from "@/theme/themeContext";
 import React from "react";
 import {
   DimensionValue,
@@ -6,9 +9,6 @@ import {
   StyleSheet,
   TextStyle,
 } from "react-native";
-import { fontToDp, heightToDp, widthToDp } from "@/theme/responsiveUtility";
-import { COLORS } from "@/theme/Color";
-import { useTheme } from "@/theme/themeContext";
 
 interface TextProps extends RNTextProps {
   pl?: DimensionValue;
@@ -32,7 +32,14 @@ interface TextProps extends RNTextProps {
   bottom?: number;
   left?: number;
   right?: number;
-  fontFamily?: "light" | "regular" | "medium" | "semibold" | "bold" | "heavy";
+  fontFamily?:
+    | "light"
+    | "regular"
+    | "medium"
+    | "semibold"
+    | "bold"
+    | "heavy"
+    | "archivoblack";
   textDecorationLine?:
     | "none"
     | "underline"
@@ -99,18 +106,20 @@ const Text: React.FC<TextProps> = ({
     textDecorationLine,
     fontFamily:
       fontFamily === "light"
-        ? "Gilroy-Light"
+        ? "InterLight"
         : fontFamily === "regular"
-        ? "Gilroy-Regular"
+        ? "InterRegular"
         : fontFamily === "medium"
-        ? "Gilroy-Medium"
+        ? "InterMedium"
         : fontFamily === "semibold"
-        ? "Gilroy-Semibold"
+        ? "InterSemiBold"
         : fontFamily === "bold"
-        ? "Gilroy-Bold"
+        ? "InterBold"
         : fontFamily === "heavy"
-        ? "Gilroy-Heavy"
-        : "Gilroy-Regular",
+        ? "InterHeavy"
+        : fontFamily === "archivoblack"
+        ? "ArchivoBlack"
+        : "InterRegular",
   };
 
   return (
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
     width: "auto",
     height: "auto",
     color: "#000",
-    fontFamily: "Gilroy-Regular",
+    fontFamily: "Inter-Regular",
   },
 });
 
