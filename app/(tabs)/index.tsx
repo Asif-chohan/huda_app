@@ -1,15 +1,22 @@
-// screens/FeedScreen.tsx
-import { Assets } from "@/assets/images";
+
 import Box from "@/components/Box";
+import Buttons from "@/components/Button";
 import Texts from "@/components/Text";
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+
+
+
+import { Assets } from "@/assets/images";
+
+import React, { useState } from "react";
+
 import {
   FlatList,
   Image,
+  Modal,
+  Pressable,
+  ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
+  View
 } from "react-native";
 
 type PostType = {
@@ -86,7 +93,51 @@ const dummyData: PostType[] = [
 ];
 
 export default function FeedScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
+  const [selectedContent, setSelectedContent] = useState<string | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+
+
+
+
+  const activities = [
+  { label: "Watched", color: "#A5D8F3", icon: <Assets.Claspperboard /> },
+  { label: "Read", color: "#FFE680", icon: <Assets.Book /> },
+  { label: "Listened", color: "#F5B8F0", icon: <Assets.Music /> },
+  { label: "Played", color: "#B9F6A5", icon: <Assets.GamePad /> },
+];
+  const contents = [
+    "Movies",
+    "TV Shows",
+    "Audiobooks",
+    "Books",
+    "Podcasts",
+    "Music",
+    "Music Videos",
+    "Radio Shows",
+    "Games",
+    "Mobile Games",
+  ];
+const platforms = [
+  { name: "Amazon Prime", icon: <Assets.Prime/> },
+  { name: "Netflix", icon: <Assets.Netflix /> },
+  { name: "Apple TV", icon: <Assets.AppleTv /> },
+  { name: "Hulu", icon: <Assets.Hulu /> },
+  { name: "Kindle", icon: <Assets.AmazoneKindle /> },
+  { name: "Google Play Books", icon: <Assets.GoogleBook /> },
+  { name: "Spotify", icon: <Assets.Spotify /> },
+  { name: "Xbox", icon: <Assets.Xbox /> },
+  { name: "Playstation", icon: <Assets.PlayStation /> },
+];
+
+
+  const applyFilters = () => {
+    setModalVisible(false);
+  };
+
   const renderPost = ({ item }: { item: PostType }) => (
+
     <Box mb={32} ph={20}>
       {/* User Info */}
       <Box flexDirection="row" alignItems="center" mb={12}>
@@ -129,7 +180,7 @@ export default function FeedScreen() {
         </Box>
       </Box>
 
-      {/* Post Image with overlay */}
+      {/* Post Image */}
       <Box pos="relative">
         <Image source={item.image} style={styles.postImage} />
         <Box
@@ -140,13 +191,10 @@ export default function FeedScreen() {
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
-          // style={styles.imageOverlay}
         >
           <Box p={8} bgColor="bg" radius={50}>
-            {/* <Ionicons name="logo-youtube" size={22} color="#fff" /> */}
             <Assets.Youtube />
           </Box>
-
           <Box
             bgColor="bg"
             ph={12}
@@ -185,32 +233,24 @@ export default function FeedScreen() {
       </Texts>
 
       {/* Likes / Comments */}
-      <Box
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <Box flexDirection="row" justifyContent="space-between" alignItems="center">
         <Box flexDirection="row" alignItems="center">
-          <Assets.Heart />
-          {/* <Ionicons name="heart-outline" size={20} color="#333" /> */}
-          <Text style={styles.actionText}>{item.likes}</Text>
-          <Ionicons
-            name="chatbubble-outline"
-            size={20}
-            color="#333"
-            style={{ marginLeft: 12 }}
-          />
-          <Text style={styles.actionText}>{item.comments}</Text>
+          <Assets.Heart height={20} width={20} />
+          <Texts ml={4} font={13} fontFamily="medium" color="heading">
+            {item.likes}
+          </Texts>
+          <Box ml={12}>
+            <Assets.Chat height={20} width={20} />
+          </Box>
+          <Texts ml={4} font={13} fontFamily="medium" color="heading">
+            {item.comments}
+          </Texts>
         </Box>
-
-        {/* Buttons */}
-        <Box style={styles.buttonsRow}>
-          <TouchableOpacity style={styles.finishedBtn}>
-            <Text style={{ color: "#fff" }}>Finished</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.wantBtn}>
-            <Text>Want</Text>
-          </TouchableOpacity>
+        <Box flexDirection="row">
+          <Buttons title="Finished" onPress={() => {}} paddingX={12} paddingY={7} />
+          <Box ml={8}>
+            <Buttons title="Want" onPress={() => {}} paddingX={12} paddingY={9} />
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -218,64 +258,120 @@ export default function FeedScreen() {
 
   return (
     <Box flex={1} bgColor="bgSecondary" pt={54}>
-      <Box
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        ph={20}
-      >
+      {/* Header */}
+      <Box flexDirection="row" justifyContent="space-between" alignItems="center" ph={20}>
         <Box pos="relative">
-          {/* Purple shadow shape FIRST so it renders behind */}
           <Box style={styles.purpleShadow} />
           <Assets.photo />
         </Box>
-
-        {/* Top Right Icons */}
         <Box flexDirection="row" alignItems="center">
           <Assets.Bell style={{ marginRight: 16 }} />
           <Assets.UserPlus />
         </Box>
       </Box>
 
-      {/* Tab Row */}
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        ph={20}
-        pv={20}
-      >
-        <Box flexDirection="row">
-          <Texts
-            lineHeight={28}
-            fontFamily="archivoblack"
-            font={13.5}
-            weight={400}
-          >
-            FOR YOU
-          </Texts>
-          <Texts
-            color="filterGray"
-            fontFamily="archivoblack"
-            font={13.5}
-            weight={400}
-            pl={9.5}
-            lineHeight={28}
-          >
-            TRENDING
-          </Texts>
-          <Texts
-            color="filterGray"
-            fontFamily="archivoblack"
-            font={13.5}
-            weight={400}
-            pl={9.5}
-            lineHeight={28}
-          >
-            TOP PICKS
-          </Texts>
+      {/* Tab Row + Selected Filters */}
+      <Box flexDirection="row" alignItems="center" justifyContent="space-between" ph={20} pv={20}>
+        <Box>
+          <Box flexDirection="row">
+            <Texts lineHeight={28} fontFamily="archivoblack" font={13.5} weight={400}>
+              FOR YOU
+            </Texts>
+            <Texts color="filterGray" fontFamily="archivoblack" font={13.5} weight={400} pl={9.5} lineHeight={28}>
+              TRENDING
+            </Texts>
+            <Texts color="filterGray" fontFamily="archivoblack" font={13.5} weight={400} pl={9.5} lineHeight={28}>
+              TOP PICKS
+            </Texts>
+          </Box>
+
+
+
+          {/* {(selectedActivity || selectedContent || selectedPlatform) && (
+            <Texts font={12} color="textSecondary" mt={4}>
+              {selectedActivity ? `${selectedActivity} • ` : ""}
+              {selectedContent ? `${selectedContent} • ` : ""}
+              {selectedPlatform || ""}
+            </Texts>
+          )} */}
+
+<View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+  {selectedActivity && (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#fff",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderColor: "#F0EAE5",
+        borderRadius: 40,
+        borderWidth: 1,
+      }}
+    >
+      <Texts font={12} color="textSecondary">{selectedActivity}</Texts>
+      <Pressable onPress={() => setSelectedActivity(null)}>
+        <Assets.Close style={{ marginLeft: 8 }} />
+      </Pressable>
+    </View>
+  )}
+
+  {selectedContent && (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#fff",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderColor: "#F0EAE5",
+        borderRadius: 40,
+        borderWidth: 1,
+      }}
+    >
+      <Texts font={12} color="textSecondary">{selectedContent}</Texts>
+      <Pressable onPress={() => setSelectedContent(null)}>
+        <Assets.Close style={{ marginLeft: 8 }} />
+      </Pressable>
+    </View>
+  )}
+
+  {selectedPlatform && (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#fff",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderColor: "#F0EAE5",
+        borderRadius: 40,
+        borderWidth: 1,
+      }}
+    >
+      {platforms.find((p) => p.name === selectedPlatform)?.icon}
+      <Texts font={12} color="textSecondary" style={{ marginLeft: 6 }}>
+        {selectedPlatform}
+      </Texts>
+      <Pressable onPress={() => setSelectedPlatform(null)}>
+        <Assets.Close style={{ marginLeft: 8 }} />
+      </Pressable>
+    </View>
+  )}
+</View>
+
+
+
+
+
+
+
+
+
         </Box>
-        <Assets.Tuning />
+        <Pressable onPress={() => setModalVisible(true)}>
+          <Assets.Tuning />
+        </Pressable>
       </Box>
 
       {/* Feed */}
@@ -285,18 +381,165 @@ export default function FeedScreen() {
         renderItem={renderPost}
         showsVerticalScrollIndicator={false}
       />
+
+
+     {/* Filter Modal */}
+<Modal visible={modalVisible} animationType="slide" transparent={true}>
+  <Box flex={1} justifyContent="flex-end" alignItems="center" bgColor="modalLayer">
+    <Box
+      width="100%"
+height="90%"
+      bgColor="bgSecondary"
+      bTLR={20}
+      bTRR={20}
+      
+    >
+      {/* Header */}
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        ph={20}
+        pt={14}
+        pb={25}
+      
+      
+      >
+        <Pressable onPress={() => setModalVisible(false)}>
+          <Assets.Back /> {/* Replace with your actual back icon */}
+        </Pressable>
+        <Texts font={16} fontFamily="semibold" color="heading" >
+          Filter
+        </Texts>
+        {/* Placeholder for symmetry */}
+        <Box style={{ width: 24 }} />
+      </Box>
+
+      {/* Content */}
+      <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
+
+        <Texts font={20} weight={400} fontFamily="archivoblack" mb={16}>   By activity type</Texts>
+       
+    
+
+
+
+
+
+
+ 
+    <Box flexDirection="row" flexWrap="wrap" justifyContent="space-between">
+      {activities.map((act) => {
+        const isSelected = selectedActivity === act.label;
+        return (
+          <Pressable
+            key={act.label}
+            onPress={() => setSelectedActivity(act.label)}
+            style={{
+              backgroundColor: act.color,
+              width: "49%", // 2 cards per row
+              padding: 12,
+              marginBottom: 8,
+              borderRadius: 16,
+              borderWidth: 1,
+              borderColor: "#1D1D1D",
+                      shadowColor: "#1D1D1D",
+              shadowOffset: isSelected ? { width: 0, height: 0 } : { width: 3, height: 3 },
+              shadowOpacity: isSelected ? 0 : 1,
+              shadowRadius: 0,
+              opacity: isSelected ? 0.6 : 1,
+              alignItems: "center",
+
+            }}
+          >
+            <Box mb={12}>{act.icon}</Box>
+            <Texts weight={400} font={14} fontFamily="archivoblack">{act.label}</Texts>
+          </Pressable>
+        );
+      })}
     </Box>
+
+
+
+
+
+
+
+       <Texts font={20} weight={400} fontFamily="archivoblack" mb={16} mt={40}>By type of content</Texts>
+        <Box flexDirection="row" flexWrap="wrap">
+          {contents.map((cont) => (
+            <Pressable
+              key={cont}
+              onPress={() => setSelectedContent(cont)}
+              style={{
+                backgroundColor: "#fff",
+                paddingHorizontal: 12,
+                paddingVertical:6,
+                marginLeft: 8,
+                marginBottom:8,
+                borderRadius:40,
+                borderWidth: 1,
+                borderColor: selectedContent === cont ? "#1D1D1D" : "#F0EAE6",
+              }}
+            >
+              <Texts font={15} fontFamily="regular">{cont}</Texts>
+            </Pressable>
+          ))}
+        </Box>
+
+       <Texts font={20} weight={400} fontFamily="archivoblack" mb={16} mt={32}>
+  By platform
+</Texts>
+
+<Box flexDirection="row" flexWrap="wrap" mb={7}>
+  {platforms.map((plat) => (
+    <Pressable
+      key={plat.name}
+      onPress={() => setSelectedPlatform(plat.name)}
+      style={{
+        backgroundColor: "#fff",
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 40,
+        borderWidth: 1,
+        marginLeft: 8,
+        marginBottom: 8,
+        borderColor:
+          selectedPlatform === plat.name ? "#1D1D1D" : "#F0EAE6",
+      }}
+    >
+      <Box flexDirection="row" alignItems="center">
+        <Box mr={4}>{plat.icon}</Box>
+        <Texts>{plat.name}</Texts>
+      </Box>
+    </Pressable>
+  ))}
+</Box>
+
+<Box mb={44}>
+        <Buttons
+          title="Apply filters"
+          onPress={applyFilters}
+          paddingX={32}
+          paddingY={16}
+        /></Box>
+      </ScrollView>
+    </Box>
+  </Box>
+</Modal>
+
+    </Box>
+
+
+
+
+
+
+
   );
 }
 
 const styles = StyleSheet.create({
-  // topRow: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   paddingHorizontal: 16,
-  // },
-
   purpleShadow: {
     position: "absolute",
     width: 223,
@@ -310,95 +553,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 30,
-    elevation: 20, // for Android glow-like effect
+    elevation: 20,
   },
-
-  // tabRow: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   justifyContent: "space-between",
-  //   paddingHorizontal: 20,
-  //   marginVertical: 20,
-  // },
-
-  // tabs: { flexDirection: "row", gap: 12 },
-  // tabText: {
-  //   fontWeight: "600",
-  //   color: "#888",
-  //   fontFamily: "ArchivoBlack",
-  //   fontSize: 16,
-  // },
-  // activeTab: { color: "#000" },
-
-  // postCard: { marginBottom: 24, paddingHorizontal: 16 },
-  // userRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  // username: { fontWeight: "bold", fontSize: 14, fontFamily: "ArchivoBlack" },
-  // tag: {
-  //   paddingHorizontal: 6,
-  //   paddingVertical: 2,
-  //   borderRadius: 6,
-  //   marginTop: 2,
-  //   overflow: "hidden",
-  //   fontSize: 10,
-  //   color: "#17A5E0",
-  //   borderWidth: 1,
-  //   borderColor: "#17A5E0",
-  //   fontFamily: "ArchivoBlack",
-  //   backgroundColor: "white",
-  // },
-  // time: { marginLeft: "auto", color: "#888", fontSize: 12 },
-  // imageContainer: { position: "relative" },
   postImage: { width: "100%", height: 220, borderRadius: 8 },
-
-  // imageOverlay: {
-  //   position: "absolute",
-  //   bottom: 8,
-  //   left: 8,
-  //   right: 8,
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  // },
-
-  // leftIcon: {
-  //   backgroundColor: "rgba(0,0,0,0.5)",
-  //   padding: 6,
-  //   borderRadius: 20,
-  // },
-  // imageHashtag: {
-  //   backgroundColor: "rgba(0,0,0,0.5)",
-  //   color: "#fff",
-  //   paddingHorizontal: 8,
-  //   paddingVertical: 4,
-  //   borderRadius: 12,
-  //   fontSize: 12,
-  // },
-  // title: {
-  //   fontWeight: "bold",
-  //   fontSize: 16,
-  //   marginTop: 8,
-  //   fontFamily: "ArchivoBlack",
-  // },
-  // description: { fontSize: 14, color: "#444", marginBottom: 8 },
-  // actionRow: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  // },
-  likeCommentRow: { flexDirection: "row", alignItems: "center" },
-  actionText: { marginLeft: 4, fontSize: 13 },
-  buttonsRow: { flexDirection: "row", gap: 8 },
-  finishedBtn: {
-    backgroundColor: "#A259FF",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-  wantBtn: {
-    borderWidth: 1,
-    borderColor: "#000",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
 });

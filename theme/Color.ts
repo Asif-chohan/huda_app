@@ -1,8 +1,8 @@
 export const COLORS = {
   light: {
     bg: "#FFFFFF",
-    bgSecondary: "#F8F3EF",
-    heading: "#1D1D1D",
+   bgSecondary: "#F8F3EF",
+     heading: "#1D1D1D",
     filterGray: "#AAA29C",
     textSecondary: "#797470",
     borderColor: "#F0EAE5",
