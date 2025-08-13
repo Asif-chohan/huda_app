@@ -22,7 +22,7 @@ export default function SignupScreen() {
 
   const handleContinue = () => {
     console.log("Continue to next step");
-    router.push("/(auth)/swipe-screen");
+    router.push("/(auth)/login");
   };
 
   return (

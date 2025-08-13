@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/images/splash-icon.png",
     "scheme": "hudaapp",
-    "backgroundColor": "#F0EAE6",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

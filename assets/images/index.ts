@@ -91,8 +91,10 @@ import UserTab from "@/assets/images/tab/UserTab.svg";
 // import image from "@/assets/images/Feed/image.png";
 import purpleshadow from "@/assets/images/Feed/color.svg";
 import photo from "@/assets/images/Feed/photo.svg";
+import Search from "@/assets/images/Feed/Search.svg";
 export const Assets = {
   // image,
+  Search,
   purpleshadow,
   photo,
   HomeTab,

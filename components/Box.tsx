@@ -1,3 +1,6 @@
+import { COLORS } from "@/theme/Color";
+import { heightToDp, widthToDp } from "@/theme/responsiveUtility";
+import { useTheme } from "@/theme/themeContext";
 import React from "react";
 import {
   DimensionValue,
@@ -6,9 +9,6 @@ import {
   StyleSheet,
   ViewStyle,
 } from "react-native";
-import { COLORS } from "@/theme/Color";
-import { heightToDp, widthToDp } from "@/theme/responsiveUtility";
-import { useTheme } from "@/theme/themeContext";
 
 // Defining the types for the props
 interface ViewProps extends RNViewProps {

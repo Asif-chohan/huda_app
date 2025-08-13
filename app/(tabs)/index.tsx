@@ -9,13 +9,17 @@ import { Assets } from "@/assets/images";
 
 import React, { useState } from "react";
 
+
+import BottomModal from "@/components/BottomModal";
+import { useModal } from "@/hooks/useModal";
+import AddFriendModal from "@/modules/feed/components/AddFriendModal";
+import FiltrationModal from "@/modules/feed/components/FiltrationModal";
 import {
   FlatList,
   Image,
-  Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
+  TextInput,
   View
 } from "react-native";
 
@@ -131,14 +135,172 @@ const platforms = [
   { name: "Playstation", icon: <Assets.PlayStation /> },
 ];
 
+  const friendsList = [
+    { id: "1", username: "@janny", tag: "MOVIE BUFF", tagColor: "blue", photo: <Assets.photo /> },
+    { id: "2", username: "@camile_k", tag: "GAME GURU", tagColor: "green", photo: <Assets.photo/> },
+    { id: "3", username: "@elf_man", tag: "BOOK WARM", tagColor: "yellow", photo: <Assets.photo /> },
+  ];
+
+
+
+
+
+const dummyComments = [
+  {
+    id: "1",
+    user: "@janny",
+    avatar: <Assets.photo/>,
+    text: "Beetlejuice is the perfect mix of comedy and horror—totally unique!",
+    replies: [],
+  },
+  {
+    id: "2",
+    user: "@nikky",
+    avatar: (
+      <Box
+        width={32}
+        height={32}
+        radius={16}
+        bgColor="bgSecondary"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Texts font={14} fontFamily="medium">
+          N
+        </Texts>
+      </Box>
+    ),
+    text: "Michael Keaton’s performance is iconic! 🤯🙌",
+    replies: [
+      {
+        id: "2-1",
+        user: "@john",
+        avatar: <Assets.photo/>,
+        text: "Totally agree! One of his best roles.",
+      },
+    ],
+  },
+];
+
+
+
+
+
+
 
   const applyFilters = () => {
     setModalVisible(false);
   };
+  const { openModal, closeModal, isModalVisible } = useModal();
+  const [instagramEnabled, setInstagramEnabled] = useState(false);
+  const [contactsEnabled, setContactsEnabled] = useState(false);
+  const [facebookEnabled,setFacebookEnabled] = useState(false)
+
+
+
+
+
+  const [comments, setComments] = useState(dummyComments);
+  const [newComment, setNewComment] = useState("");
+  const [replyTo, setReplyTo] = useState<{ id: string; user: string } | null>(null);
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+
+    if (replyTo) {
+      // Add reply to specific comment
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === replyTo.id
+            ? {
+                ...comment,
+                replies: [
+                  ...comment.replies,
+                  {
+                    id: `${comment.id}-${comment.replies.length + 1}`,
+                    user: "@you",
+                    avatar: <Assets.photo/>,
+                    text: newComment.trim(),
+                  },
+                ],
+              }
+            : comment
+        )
+      );
+    } else {
+      // Add as a main comment
+      setComments((prev) => [
+        ...prev,
+        {
+          id: String(prev.length + 1),
+          user: "@you",
+          avatar:  <Assets.photo/>,
+          text: newComment.trim(),
+          replies: [],
+        },
+      ]);
+    }
+
+    setNewComment("");
+    setReplyTo(null);
+  };
+
+  const renderComment = ({ item }: any) => (
+    <Box mb={16}>
+      <Box flexDirection="row" alignItems="flex-start">
+        {item.avatar}
+        <Box ml={8} flex={1}>
+          <Texts fontFamily="archivoblack" font={14} weight={400} lineHeight={26} color="heading">
+            {item.user}
+          </Texts>
+          <Texts font={13} fontFamily="medium" color="textSecondary" mt={2}>
+            {item.text}
+          </Texts>
+
+          <Pressable onPress={() => setReplyTo({ id: item.id, user: item.user })}>
+            <Texts mt={8} font={13} fontFamily="bold" color="heading">
+              Reply
+            </Texts>
+          </Pressable>
+
+          {item.replies?.length > 0 && (
+            <Box mt={6} ml={40}>
+              {item.replies.map((reply:any) => (
+                <Box key={reply.id} mb={8} flexDirection="row">
+                  {reply.avatar}
+                  <Box ml={8} flex={1}>
+                    <Texts fontFamily="medium" font={14} color="heading">
+                      {reply.user}
+                    </Texts>
+                    <Texts font={14} mt={2}>
+                      {reply.text}
+                    </Texts>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+
+
+
+
+
+
+
+
+
 
   const renderPost = ({ item }: { item: PostType }) => (
 
-    <Box mb={32} ph={20}>
+    <Box mb={64} ph={20}>
+
+
+
+
       {/* User Info */}
       <Box flexDirection="row" alignItems="center" mb={12}>
         <Box mt={7}>
@@ -172,11 +334,18 @@ const platforms = [
             </Texts>
           </Box>
         </Box>
+
+
+
+
+
+
         <Texts ml="auto" color="textSecondary" font={13} fontFamily="medium">
           {item.time}
         </Texts>
         <Box ml={8}>
           <Assets.More />
+      
         </Box>
       </Box>
 
@@ -239,13 +408,37 @@ const platforms = [
           <Texts ml={4} font={13} fontFamily="medium" color="heading">
             {item.likes}
           </Texts>
-          <Box ml={12}>
+
+
+
+          {/* <Box ml={12}>
             <Assets.Chat height={20} width={20} />
           </Box>
           <Texts ml={4} font={13} fontFamily="medium" color="heading">
             {item.comments}
+          </Texts> */}
+
+<Pressable onPress={() => setModalVisible(true)}>
+        <Box ml={12} flexDirection="row" alignItems="center">
+          <Assets.Chat height={20} width={20} />
+          <Texts ml={4} font={13} fontFamily="medium" color="heading">
+            {comments.length}
           </Texts>
         </Box>
+      </Pressable>
+
+
+
+
+
+          
+        </Box>
+
+
+
+
+
+        
         <Box flexDirection="row">
           <Buttons title="Finished" onPress={() => {}} paddingX={12} paddingY={7} />
           <Box ml={8}>
@@ -266,7 +459,8 @@ const platforms = [
         </Box>
         <Box flexDirection="row" alignItems="center">
           <Assets.Bell style={{ marginRight: 16 }} />
-          <Assets.UserPlus />
+       <Pressable  onPress={() => openModal("custom")}  >  <Assets.UserPlus /></Pressable>
+       
         </Box>
       </Box>
 
@@ -369,7 +563,7 @@ const platforms = [
 
 
         </Box>
-        <Pressable onPress={() => setModalVisible(true)}>
+        <Pressable  onPress={() => openModal("filtration")}>
           <Assets.Tuning />
         </Pressable>
       </Box>
@@ -383,154 +577,104 @@ const platforms = [
       />
 
 
-     {/* Filter Modal */}
-<Modal visible={modalVisible} animationType="slide" transparent={true}>
-  <Box flex={1} justifyContent="flex-end" alignItems="center" bgColor="modalLayer">
-    <Box
-      width="100%"
-height="90%"
-      bgColor="bgSecondary"
-      bTLR={20}
-      bTRR={20}
-      
-    >
-      {/* Header */}
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        ph={20}
-        pt={14}
-        pb={25}
-      
-      
+
+
+
+      <FiltrationModal
+             visible={isModalVisible("filtration")}   
+            onClose={closeModal}
+        selectedActivity={selectedActivity}
+        setSelectedActivity={setSelectedActivity}
+        selectedContent={selectedContent}
+        setSelectedContent={setSelectedContent}
+        selectedPlatform={selectedPlatform}
+        setSelectedPlatform={setSelectedPlatform}
+        activities={activities}
+        contents={contents}
+        platforms={platforms}
+        onApply={applyFilters}
+      />
+
+<AddFriendModal
+  visible={isModalVisible("custom")}
+  onClose={closeModal}
+  contactsEnabled={contactsEnabled}
+  setContactsEnabled={setContactsEnabled}
+  facebookEnabled={facebookEnabled}
+  setFacebookEnabled={setFacebookEnabled}
+  instagramEnabled={instagramEnabled}
+  setInstagramEnabled={setInstagramEnabled}
+  friendsList={friendsList}
+/>
+
+
+
+
+
+
+
+   <BottomModal
+        visible={modalVisible}
+        title={`Comments (${comments.length})`}
+        onClose={() => {
+          setModalVisible(false);
+          setReplyTo(null);
+        }}
+        onApply={() => {}}
+        showApplyButton={false}
       >
-        <Pressable onPress={() => setModalVisible(false)}>
-          <Assets.Back /> {/* Replace with your actual back icon */}
-        </Pressable>
-        <Texts font={16} fontFamily="semibold" color="heading" >
-          Filter
-        </Texts>
-        {/* Placeholder for symmetry */}
-        <Box style={{ width: 24 }} />
-      </Box>
+        <FlatList
+          data={comments}
+          keyExtractor={(item) => item.id}
+          renderItem={renderComment}
+          showsVerticalScrollIndicator={false}
+        />
 
-      {/* Content */}
-      <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
-
-        <Texts font={20} weight={400} fontFamily="archivoblack" mb={16}>   By activity type</Texts>
-       
-    
-
-
-
-
-
-
- 
-    <Box flexDirection="row" flexWrap="wrap" justifyContent="space-between">
-      {activities.map((act) => {
-        const isSelected = selectedActivity === act.label;
-        return (
-          <Pressable
-            key={act.label}
-            onPress={() => setSelectedActivity(act.label)}
-            style={{
-              backgroundColor: act.color,
-              width: "49%", // 2 cards per row
-              padding: 12,
-              marginBottom: 8,
-              borderRadius: 16,
-              borderWidth: 1,
-              borderColor: "#1D1D1D",
-                      shadowColor: "#1D1D1D",
-              shadowOffset: isSelected ? { width: 0, height: 0 } : { width: 3, height: 3 },
-              shadowOpacity: isSelected ? 0 : 1,
-              shadowRadius: 0,
-              opacity: isSelected ? 0.6 : 1,
-              alignItems: "center",
-
-            }}
-          >
-            <Box mb={12}>{act.icon}</Box>
-            <Texts weight={400} font={14} fontFamily="archivoblack">{act.label}</Texts>
-          </Pressable>
-        );
-      })}
-    </Box>
-
-
-
-
-
-
-
-       <Texts font={20} weight={400} fontFamily="archivoblack" mb={16} mt={40}>By type of content</Texts>
-        <Box flexDirection="row" flexWrap="wrap">
-          {contents.map((cont) => (
-            <Pressable
-              key={cont}
-              onPress={() => setSelectedContent(cont)}
-              style={{
-                backgroundColor: "#fff",
-                paddingHorizontal: 12,
-                paddingVertical:6,
-                marginLeft: 8,
-                marginBottom:8,
-                borderRadius:40,
-                borderWidth: 1,
-                borderColor: selectedContent === cont ? "#1D1D1D" : "#F0EAE6",
-              }}
-            >
-              <Texts font={15} fontFamily="regular">{cont}</Texts>
+        {/* Comment Input */}
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          bgColor="bg"
+          radius={24}
+          ph={16}
+          height={46}
+          mt={12}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder={replyTo ? `Replying to ${replyTo.user}` : "Add comment..."}
+            value={newComment}
+            onChangeText={setNewComment}
+          />
+          {replyTo && (
+            <Pressable onPress={() => setReplyTo(null)} style={{ marginRight: 8 }}>
+              <Texts font={12} color="brown">
+                Cancel
+              </Texts>
             </Pressable>
-          ))}
+          )}
+          <Pressable onPress={handleAddComment}>
+            <Texts font={14} fontFamily="medium" color="primary">
+              Post
+            </Texts>
+          </Pressable>
         </Box>
+      </BottomModal>
 
-       <Texts font={20} weight={400} fontFamily="archivoblack" mb={16} mt={32}>
-  By platform
-</Texts>
 
-<Box flexDirection="row" flexWrap="wrap" mb={7}>
-  {platforms.map((plat) => (
-    <Pressable
-      key={plat.name}
-      onPress={() => setSelectedPlatform(plat.name)}
-      style={{
-        backgroundColor: "#fff",
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 40,
-        borderWidth: 1,
-        marginLeft: 8,
-        marginBottom: 8,
-        borderColor:
-          selectedPlatform === plat.name ? "#1D1D1D" : "#F0EAE6",
-      }}
-    >
-      <Box flexDirection="row" alignItems="center">
-        <Box mr={4}>{plat.icon}</Box>
-        <Texts>{plat.name}</Texts>
-      </Box>
-    </Pressable>
-  ))}
-</Box>
 
-<Box mb={44}>
-        <Buttons
-          title="Apply filters"
-          onPress={applyFilters}
-          paddingX={32}
-          paddingY={16}
-        /></Box>
-      </ScrollView>
-    </Box>
-  </Box>
-</Modal>
+
+
+
+
+
+
+
+
+
+
 
     </Box>
-
-
 
 
 
@@ -556,4 +700,17 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   postImage: { width: "100%", height: 220, borderRadius: 8 },
+    input: {
+    flex: 1,
+    fontSize: 16,
+    paddingVertical: 0, // removes extra vertical padding for perfect center
+    color: "#000",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
+  },
 });
