@@ -19,6 +19,7 @@ export const forYouData: PostType[] = [
       "Just watched Beetlejuice and loved it! 🎉 Michael Keaton is hilarious, and the visuals are so quirky",
     likes: 284,
     comments: 68,
+        status: null, 
   },
   {
     id: "2",
@@ -36,6 +37,7 @@ export const forYouData: PostType[] = [
       "A weekend soundtrack powered by Blinding Lights—the perfect retro hit for nonstop good energy!",
     likes: 284,
     comments: 68,
+     status: null, 
   },
 ];
 
@@ -56,6 +58,7 @@ export const trendingData: PostType[] = [
       "Just finished The Seven Husbands of Evelyn Hugo, and I’m blown away!",
     likes: 284,
     comments: 68,
+     status: null, 
   },
 ];
 
@@ -76,6 +79,7 @@ export const topPicksData: PostType[] = [
       "The bond between Joel and Ellie is incredible, and the post-apocalyptic world is hauntingly immersive.",
     likes: 284,
     comments: 68,
+     status: null, 
   },
 ];
 

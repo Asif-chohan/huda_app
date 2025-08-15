@@ -6,6 +6,8 @@ interface Props {
   disabled?: boolean;
   paddingX?: number;
   paddingY?: number;
+  bgColor?: string;
+  ml?:number;   // optional margin left
 }
 
 export default function AuthButton({
@@ -14,6 +16,8 @@ export default function AuthButton({
   disabled,
   paddingX,
   paddingY,
+  bgColor,
+  ml,
 }: Props) {
   return (
     <TouchableOpacity
@@ -22,6 +26,8 @@ export default function AuthButton({
         disabled && styles.disabled,
         paddingX !== undefined && { paddingHorizontal: paddingX },
         paddingY !== undefined && { paddingVertical: paddingY },
+        bgColor && { backgroundColor: bgColor }, // apply background color
+        ml !== undefined && { marginLeft: ml },  // apply margin left
       ]}
       onPress={onPress}
       disabled={disabled}
@@ -56,4 +62,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1D1D1D",
   },
-});
+}); 

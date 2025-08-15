@@ -4,28 +4,27 @@ import Texts from "@/components/Text";
 
 import { Assets } from "@/assets/images";
 
-import React, { useState } from "react";
+import BottomModal from "@/components/BottomModal";
 import { useModal } from "@/hooks/useModal";
-import AddFriendModal from "@/modules/feed/components/AddFriendModal";
-import FiltrationModal from "@/modules/feed/components/FiltrationModal";
-import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
-import CommentsModal from "@/modules/feed/components/CommentItem";
 import { useToggleSwitches } from "@/hooks/useToggleSwitches";
-import { PostType } from "@/types/feed";
-
+import AddFriendModal from "@/modules/feed/components/AddFriendModal";
+import CommentsModal from "@/modules/feed/components/CommentItem";
+import { FilterChip } from "@/modules/feed/components/FilterChip";
+import FiltrationModal from "@/modules/feed/components/FiltrationModal";
 import {
-  forYouData,
-  trendingData,
-  topPicksData,
-  dummyComments,
   activities,
   contents,
-  platforms,
+  dummyComments,
+  forYouData,
   friendsList,
+  platforms,
+  topPicksData,
+  trendingData,
 } from "@/modules/feed/data/feed";
 import { useFeedFilters } from "@/modules/feed/hooks/useFilter";
-import { FilterChip } from "@/modules/feed/components/FilterChip";
-
+import { PostType } from "@/types/feed";
+import React, { useState } from "react";
+import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
 export default function FeedScreen() {
   const applyFilters = () => {
     //  apply  the filter logic
@@ -38,6 +37,13 @@ export default function FeedScreen() {
   const [replyTo, setReplyTo] = useState<{ id: string; user: string } | null>(
     null
   );
+const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
+
+const openWantModal = (post: PostType) => {
+  setSelectedPost(post);
+  openModal("want");
+};
+
 
   const [selectedTab, setSelectedTab] = useState<
     "forYou" | "trending" | "topPicks"
@@ -232,15 +238,17 @@ export default function FeedScreen() {
             onPress={() => {}}
             paddingX={12}
             paddingY={7}
+            
+            
           />
-          <Box ml={8}>
-            <Buttons
-              title="Want"
-              onPress={() => {}}
-              paddingX={12}
-              paddingY={9}
-            />
-          </Box>
+           <Box ml={8}>
+          <Buttons
+            title="Want"
+         onPress={() => openWantModal(item)}
+            paddingX={12}
+            paddingY={9}
+          />
+        </Box>
         </Box>
       </Box>
     </Box>
@@ -381,6 +389,102 @@ export default function FeedScreen() {
         setReplyTo={setReplyTo}
         handleAddComment={handleAddComment}
       />
+
+
+
+
+  /* ------- Bottom Modal UI ------- */
+<BottomModal
+  visible={isModalVisible("want")}
+  title={`Want to ${selectedPost?.activityType || ""}`}
+
+  onClose={closeModal}
+  onApply={() => {}}
+  showApplyButton={false}
+>
+{selectedPost && (
+  <Box alignItems="center">
+    {/* Wrap image + text in their own container */}
+    <Box>
+      {/* Image stack */}
+      <Box style={{ flexDirection: "row" }}>
+        {[0, 1, 2].map((i) => (
+          <Image
+            key={i}
+            source={selectedPost.image}
+            style={{
+              width: 127,
+              height: 175,
+              borderRadius: 8,
+              marginLeft: i === 0 ? 0 : -90,
+              borderWidth: 1,
+              borderColor: "#1D1D1D",
+              zIndex: 3 - i,
+
+              // ✅ Shadow (iOS)
+              shadowColor: "#1D1D1D",
+              shadowOffset: { width: 3, height: 3 },
+              shadowOpacity: 1,
+              shadowRadius: 0,
+
+              // ✅ Shadow (Android)
+          
+            }}
+            resizeMode="cover"
+          />
+        ))}
+      </Box>
+
+      {/* Dynamic Title & Subtitle — left aligned under first image */}
+      <Box mt={14} style={{ alignItems: "flex-start" }}>
+        <Texts
+          font={12.5}
+          fontFamily="semibold"
+          weight={600}
+          color="heading"
+          lineHeight={26}
+        >
+          {`My future ${
+            selectedPost.activityType === "read"
+              ? "read list"
+              : selectedPost.activityType === "listen"
+              ? "playlist"
+              : selectedPost.activityType === "play"
+              ? "game list"
+              : "watch list"
+          }`}
+        </Texts>
+        <Texts
+          font={12}
+          fontFamily="regular"
+          color="textSecondary"
+          lineHeight={20}
+        >
+          {selectedPost.activityType === "read"
+            ? "15 books"
+            : selectedPost.activityType === "listen"
+            ? "25 music"
+            : selectedPost.activityType === "play"
+            ? "12 games"
+            : "10 movies"}
+        </Texts>
+      </Box>
+    </Box>
+
+    {/* Buttons */}
+    <Box flexDirection="row" mt={28}>
+      <Buttons
+        title="Cancel"
+        onPress={() => {closeModal()}}
+        paddingX={31}
+        bgColor="#DFD8D3"
+      />
+      <Buttons title="Confirm" onPress={() => {}} paddingX={31} ml={12} />
+    </Box>
+  </Box>
+)}
+
+</BottomModal>
     </Box>
   );
 }

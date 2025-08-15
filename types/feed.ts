@@ -14,4 +14,5 @@ export type PostType = {
   type?: string;
   contentType?: string;
   platform?: string;
+    status?: "finished" | "want" | null; 
 };
