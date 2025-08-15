@@ -7,39 +7,64 @@ import CustomModal from "./CustomModal";
 
 import Box from "@/components/Box";
 import Texts from "@/components/Text";
-
-
+import { SvgProps } from "react-native-svg";
 
 interface FriendItem {
   id: string;
-  photo: React.ReactNode;
+  photo: React.FC<SvgProps>;
   username: string;
   tag: string;
 }
 
+// interface AddFriendModalProps {
+//   visible: boolean;
+//   onClose: () => void;
+//   contactsEnabled: boolean;
+//   setContactsEnabled: (value: boolean) => void;
+//   facebookEnabled: boolean;
+//   setFacebookEnabled: (value: boolean) => void;
+//   instagramEnabled: boolean;
+//   setInstagramEnabled: (value: boolean) => void;
+//   friendsList: FriendItem[];
+// }
+
 interface AddFriendModalProps {
   visible: boolean;
   onClose: () => void;
-  contactsEnabled: boolean;
-  setContactsEnabled: (value: boolean) => void;
-  facebookEnabled: boolean;
-  setFacebookEnabled: (value: boolean) => void;
-  instagramEnabled: boolean;
-  setInstagramEnabled: (value: boolean) => void;
+  toggles: {
+    contacts: boolean;
+    facebook: boolean;
+    instagram: boolean;
+  };
+  toggleSwitch: (key: "contacts" | "facebook" | "instagram") => void;
   friendsList: FriendItem[];
 }
 
 export default function AddFriendModal({
   visible,
   onClose,
-  contactsEnabled,
-  setContactsEnabled,
-  facebookEnabled,
-  setFacebookEnabled,
-  instagramEnabled,
-  setInstagramEnabled,
+  toggles,
+  toggleSwitch,
   friendsList,
 }: AddFriendModalProps) {
+  const switchItems = [
+    {
+      icon: <Assets.Book />,
+      label: "Contacts",
+      key: "contacts" as const,
+    },
+    {
+      icon: <Assets.Facebook />,
+      label: "Facebook",
+      key: "facebook" as const,
+    },
+    {
+      icon: <Assets.InstagramColor />,
+      label: "Instagram",
+      key: "instagram" as const,
+    },
+  ];
+
   return (
     <CustomModal
       visible={visible}
@@ -53,11 +78,7 @@ export default function AddFriendModal({
       </Texts>
 
       {/* Toggle Items */}
-      {[
-        { icon: <Assets.Book />, label: "Contacts", value: contactsEnabled, onChange: setContactsEnabled },
-        { icon: <Assets.Facebook />, label: "Facebook", value: facebookEnabled, onChange: setFacebookEnabled },
-        { icon: <Assets.InstagramColor />, label: "Instagram", value: instagramEnabled, onChange: setInstagramEnabled },
-      ].map((item, index) => (
+      {switchItems.map((item, index) => (
         <Box
           key={item.label}
           flexDirection="row"
@@ -81,7 +102,10 @@ export default function AddFriendModal({
               {item.label}
             </Texts>
           </Box>
-          <Switch value={item.value} onValueChange={item.onChange} />
+          <Switch
+            value={toggles[item.key]}
+            onValueChange={() => toggleSwitch(item.key)}
+          />
         </Box>
       ))}
 
@@ -111,9 +135,14 @@ export default function AddFriendModal({
           mb={16}
         >
           <Box flexDirection="row" alignItems="center">
-            {item.photo}
+            <item.photo />
             <Box ml={8}>
-              <Texts font={11} weight={400} fontFamily="archivoblack" color="heading">
+              <Texts
+                font={11}
+                weight={400}
+                fontFamily="archivoblack"
+                color="heading"
+              >
                 {item.username}
               </Texts>
               <Box
@@ -125,13 +154,23 @@ export default function AddFriendModal({
                 borderWidth={1}
                 mt={4}
               >
-                <Texts fontFamily="archivoblack" weight={400} font={8} color="brown">
+                <Texts
+                  fontFamily="archivoblack"
+                  weight={400}
+                  font={8}
+                  color="brown"
+                >
                   {item.tag}
                 </Texts>
               </Box>
             </Box>
           </Box>
-          <Button paddingX={12} paddingY={7} title="Follow" onPress={() => {}} />
+          <Button
+            paddingX={12}
+            paddingY={7}
+            title="Follow"
+            onPress={() => {}}
+          />
         </Box>
       ))}
     </CustomModal>

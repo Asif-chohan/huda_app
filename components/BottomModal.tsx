@@ -9,7 +9,7 @@ interface BottomModalProps {
   title: string;
   children: ReactNode;
   onApply: () => void;
-    showApplyButton?: boolean;
+  showApplyButton?: boolean;
 }
 
 export default function BottomModal({
@@ -18,7 +18,7 @@ export default function BottomModal({
   title,
   children,
   onApply,
-    showApplyButton = true,
+  showApplyButton = true,
 }: BottomModalProps) {
   return (
     <Modal animationType="slide" transparent visible={visible}>
@@ -28,10 +28,14 @@ export default function BottomModal({
             <AuthTitle fontSize={20} title={title} />
           </View>
           {children}
-          
+
           {showApplyButton && (
             <View>
-              <Button paddingX={35} title="Apply" onPress={onApply || (() => {})} />
+              <Button
+                paddingX={35}
+                title="Apply"
+                onPress={onApply || (() => {})}
+              />
             </View>
           )}
           {/* <TouchableOpacity onPress={onClose}  /> */}

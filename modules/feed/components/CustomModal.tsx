@@ -1,13 +1,7 @@
 // components/CustomModal.tsx
 import React from "react";
-import {
-    Modal,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    View,
-} from "react-native";
- // Replace with your imports
+import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+// Replace with your imports
 import { Assets } from "@/assets/images";
 import Box from "@/components/Box";
 import Texts from "@/components/Text";
@@ -17,7 +11,7 @@ interface CustomModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-    footer?: React.ReactNode; 
+  footer?: React.ReactNode;
 }
 
 export default function CustomModal({
@@ -25,12 +19,23 @@ export default function CustomModal({
   onClose,
   title,
   children,
-  footer
+  footer,
 }: CustomModalProps) {
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
-      <Box flex={1} justifyContent="flex-end" alignItems="center" bgColor="modalLayer">
-        <Box width="100%" height="90%" bgColor="bgSecondary" bTLR={20} bTRR={20}>
+      <Box
+        flex={1}
+        justifyContent="flex-end"
+        alignItems="center"
+        bgColor="modalLayer"
+      >
+        <Box
+          width="100%"
+          height="90%"
+          bgColor="bgSecondary"
+          bTLR={20}
+          bTRR={20}
+        >
           {/* Header */}
           <Box
             flexDirection="row"
@@ -46,7 +51,6 @@ export default function CustomModal({
             <Texts font={16} fontFamily="semibold" color="heading">
               {title}
             </Texts>
-            <View style={{ width: 24 }} /> {/* Spacer for symmetry */}
           </Box>
 
           {/* Scrollable Content */}
@@ -55,9 +59,7 @@ export default function CustomModal({
           </ScrollView>
         </Box>
 
-
-
-             {/* Optional footer button */}
+        {/* Optional footer button */}
         {footer && (
           <Box pos="absolute" bottom={44} left={20} right={20}>
             {footer}
