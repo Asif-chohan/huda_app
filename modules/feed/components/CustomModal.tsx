@@ -1,6 +1,6 @@
 // components/CustomModal.tsx
 import React from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet } from "react-native";
 // Replace with your imports
 import { Assets } from "@/assets/images";
 import Box from "@/components/Box";
@@ -48,9 +48,10 @@ export default function CustomModal({
             <Pressable onPress={onClose}>
               <Assets.Back />
             </Pressable>
-            <Texts font={16} fontFamily="semibold" color="heading">
+            <Texts font={16}  fontFamily="semibold" color="heading">
               {title}
             </Texts>
+              <Box width={10} /> 
           </Box>
 
           {/* Scrollable Content */}

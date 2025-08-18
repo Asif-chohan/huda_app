@@ -1,8 +1,8 @@
-import React from "react";
 import Box from "@/components/Box";
-import Text from "@/components/Text";
 import Button from "@/components/Button";
+import Text from "@/components/Text";
 import { SwipeContentProps } from "@/types/onBoarding";
+import React from "react";
 
 export default function SwipeContent({
   slides,
@@ -10,14 +10,14 @@ export default function SwipeContent({
   handleNext,
   height,
 }: SwipeContentProps) {
-  const currentSlide = slides[currentIndex];
-
+const currentSlide = slides[currentIndex];
+const CurrentImage = currentSlide.image;
   return (
     <Box flex={1} bgColor="surface">
       {/* Image & Title */}
       <Box alignItems="center" ph={20} pt={44}>
         <Box pt={29} mb={48}>
-          <currentSlide.image width={"100%"} height={365} />
+  <CurrentImage width={335} height={365} />
         </Box>
 
         <Text

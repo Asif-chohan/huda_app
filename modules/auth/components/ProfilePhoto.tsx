@@ -1,9 +1,9 @@
-import * as ImagePicker from "expo-image-picker";
 import { Assets } from "@/assets/images";
-import { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Box from "@/components/Box";
 import Text from "@/components/Text";
+import * as ImagePicker from "expo-image-picker";
+import { useState } from "react";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 export default function AvatarUploader() {
   const [image, setImage] = useState<string | null>(null);
 
@@ -44,7 +44,7 @@ export default function AvatarUploader() {
         </TouchableOpacity>
 
         {image && (
-          <Box pos="absolute" bottom={2} right={-2}>
+          <Box  pos="relative" bottom={40} left={50}>
             <Assets.Edit height={28} width={28} />
           </Box>
         )}

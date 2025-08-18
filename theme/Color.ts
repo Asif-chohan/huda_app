@@ -11,7 +11,9 @@ strokGray:"#CFCBC8",
 primary:"#864AE3",
 redText:"#B73229",
 strokLight:"#F0EAE6",
-
+surfaceGray:"#F8F3EF",
+inputStroke:"#F0EAE6",
+textTertiary:"#AAA29C",
   
     subHeading: "#23262F",
     postGray: "#777E90",

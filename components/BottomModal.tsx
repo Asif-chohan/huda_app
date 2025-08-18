@@ -7,7 +7,7 @@ import Text from "./Text";
 interface BottomModalProps {
   visible: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   children: ReactNode;
   onApply: () => void;
   showApplyButton?: boolean;
@@ -22,20 +22,27 @@ export default function BottomModal({
   showApplyButton = true,
 }: BottomModalProps) {
   return (
-    <Modal animationType="slide" transparent visible={visible}>
-      <View style={styles.overlay}>
-        <View style={styles.modalContent}>
-          <View style={{ alignItems: "flex-start", marginBottom: 24 }}>
-            <Text
-              fontFamily="regular"
-              weight={400}
-              font={15.5}
-              color="heading"
-              lineHeight={24}
-            >
-              {title}
-            </Text>
-          </View>
+   <Modal animationType="slide" transparent visible={visible}>
+      <TouchableOpacity
+        style={styles.overlay}
+        activeOpacity={1}
+        onPress={onClose} // closes when tapping outside
+      >
+        <View style={styles.modalContent} onStartShouldSetResponder={() => true}>
+          {title ? (
+            <View style={{ alignItems: "flex-start", marginBottom: 24 }}>
+              <Text
+                fontFamily="regular"
+                weight={400}
+                font={15.5}
+                color="heading"
+                lineHeight={24}
+              >
+                {title}
+              </Text>
+            </View>
+          ) : null}
+
           {children}
 
           {showApplyButton && (
@@ -48,9 +55,8 @@ export default function BottomModal({
               />
             </View>
           )}
-          <TouchableOpacity onPress={onClose} />
         </View>
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 }
