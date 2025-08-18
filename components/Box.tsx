@@ -26,6 +26,7 @@ interface ViewProps extends RNViewProps {
   mv?: DimensionValue; // marginVertical
   p?: DimensionValue; // padding
   m?: DimensionValue; // margin
+
   width?: DimensionValue; // width
   height?: DimensionValue; // height
   minHeight?: DimensionValue; // minHeight
@@ -42,6 +43,7 @@ interface ViewProps extends RNViewProps {
   bottom?: number;
   left?: number;
   right?: number;
+  gap?: number;
   bgColor?: keyof typeof COLORS.light; // backgroundColor
   borderColor?: keyof typeof COLORS.light; // borderColor
   borderWidth?: number; // borderWidth
@@ -94,6 +96,7 @@ const View: React.FC<ViewProps> = ({
   bottom,
   left,
   right,
+  gap,
   bgColor,
   borderColor,
   borderWidth,
@@ -149,6 +152,7 @@ const View: React.FC<ViewProps> = ({
           minWidth:
             typeof minWidth === "number" ? widthToDp(minWidth) : minWidth,
           flex: flex,
+          gap: gap,
           flexDirection: flexDirection,
           justifyContent: justifyContent,
           alignItems: alignItems,
@@ -222,6 +226,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
+    gap: 0,
   },
   lightShadow: {
     shadowColor: "#060C3B",

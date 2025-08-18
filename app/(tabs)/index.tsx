@@ -4,7 +4,6 @@ import Texts from "@/components/Text";
 
 import { Assets } from "@/assets/images";
 
-import BottomModal from "@/components/BottomModal";
 import { useModal } from "@/hooks/useModal";
 import { useToggleSwitches } from "@/hooks/useToggleSwitches";
 import AddFriendModal from "@/modules/feed/components/AddFriendModal";
@@ -25,6 +24,8 @@ import { useFeedFilters } from "@/modules/feed/hooks/useFilter";
 import { PostType } from "@/types/feed";
 import React, { useState } from "react";
 import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
+import WantListModal from "@/modules/auth/components/WantListModal";
 export default function FeedScreen() {
   const applyFilters = () => {
     //  apply  the filter logic
@@ -37,13 +38,12 @@ export default function FeedScreen() {
   const [replyTo, setReplyTo] = useState<{ id: string; user: string } | null>(
     null
   );
-const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
+  const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
 
-const openWantModal = (post: PostType) => {
-  setSelectedPost(post);
-  openModal("want");
-};
-
+  const openWantModal = (post: PostType) => {
+    setSelectedPost(post);
+    openModal("want");
+  };
 
   const [selectedTab, setSelectedTab] = useState<
     "forYou" | "trending" | "topPicks"
@@ -72,7 +72,7 @@ const openWantModal = (post: PostType) => {
 
     return data;
   };
-
+  const router = useRouter();
   const handleAddComment = () => {
     if (!newComment.trim()) return;
 
@@ -119,7 +119,13 @@ const openWantModal = (post: PostType) => {
       {/* User Info */}
       <Box flexDirection="row" alignItems="center" mb={12}>
         <Box mt={7}>
-          <Assets.photo />
+          <Pressable
+            onPress={() => {
+              router.push("/(profile)");
+            }}
+          >
+            <Assets.photo />
+          </Pressable>
         </Box>
         <Box ml={8}>
           <Texts
@@ -160,7 +166,12 @@ const openWantModal = (post: PostType) => {
 
       {/* Post Image */}
       <Box pos="relative">
-        <Image source={item.image} style={styles.postImage} />
+        {item.image ? (
+          <Image source={item.image} style={styles.postImage} />
+        ) : (
+          <Box style={{ marginTop: "14%" }} /> // only adds spacing
+        )}
+
         <Box
           pos="absolute"
           bottom={8}
@@ -238,17 +249,15 @@ const openWantModal = (post: PostType) => {
             onPress={() => {}}
             paddingX={12}
             paddingY={7}
-            
-            
           />
-           <Box ml={8}>
-          <Buttons
-            title="Want"
-         onPress={() => openWantModal(item)}
-            paddingX={12}
-            paddingY={9}
-          />
-        </Box>
+          <Box ml={8}>
+            <Buttons
+              title="Want"
+              onPress={() => openWantModal(item)}
+              paddingX={12}
+              paddingY={9}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -390,101 +399,11 @@ const openWantModal = (post: PostType) => {
         handleAddComment={handleAddComment}
       />
 
-
-
-
-  /* ------- Bottom Modal UI ------- */
-<BottomModal
-  visible={isModalVisible("want")}
-  title={`Want to ${selectedPost?.activityType || ""}`}
-
-  onClose={closeModal}
-  onApply={() => {}}
-  showApplyButton={false}
->
-{selectedPost && (
-  <Box alignItems="center">
-    {/* Wrap image + text in their own container */}
-    <Box>
-      {/* Image stack */}
-      <Box style={{ flexDirection: "row" }}>
-        {[0, 1, 2].map((i) => (
-          <Image
-            key={i}
-            source={selectedPost.image}
-            style={{
-              width: 127,
-              height: 175,
-              borderRadius: 8,
-              marginLeft: i === 0 ? 0 : -90,
-              borderWidth: 1,
-              borderColor: "#1D1D1D",
-              zIndex: 3 - i,
-
-              // ✅ Shadow (iOS)
-              shadowColor: "#1D1D1D",
-              shadowOffset: { width: 3, height: 3 },
-              shadowOpacity: 1,
-              shadowRadius: 0,
-
-              // ✅ Shadow (Android)
-          
-            }}
-            resizeMode="cover"
-          />
-        ))}
-      </Box>
-
-      {/* Dynamic Title & Subtitle — left aligned under first image */}
-      <Box mt={14} style={{ alignItems: "flex-start" }}>
-        <Texts
-          font={12.5}
-          fontFamily="semibold"
-          weight={600}
-          color="heading"
-          lineHeight={26}
-        >
-          {`My future ${
-            selectedPost.activityType === "read"
-              ? "read list"
-              : selectedPost.activityType === "listen"
-              ? "playlist"
-              : selectedPost.activityType === "play"
-              ? "game list"
-              : "watch list"
-          }`}
-        </Texts>
-        <Texts
-          font={12}
-          fontFamily="regular"
-          color="textSecondary"
-          lineHeight={20}
-        >
-          {selectedPost.activityType === "read"
-            ? "15 books"
-            : selectedPost.activityType === "listen"
-            ? "25 music"
-            : selectedPost.activityType === "play"
-            ? "12 games"
-            : "10 movies"}
-        </Texts>
-      </Box>
-    </Box>
-
-    {/* Buttons */}
-    <Box flexDirection="row" mt={28}>
-      <Buttons
-        title="Cancel"
-        onPress={() => {closeModal()}}
-        paddingX={31}
-        bgColor="#DFD8D3"
+      <WantListModal
+        visible={isModalVisible("want")}
+        selectedPost={selectedPost}
+        closeModal={closeModal}
       />
-      <Buttons title="Confirm" onPress={() => {}} paddingX={31} ml={12} />
-    </Box>
-  </Box>
-)}
-
-</BottomModal>
     </Box>
   );
 }
@@ -506,17 +425,4 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   postImage: { width: "100%", height: 220, borderRadius: 8 },
-  // input: {
-  //   flex: 1,
-  //   fontSize: 16,
-  //   paddingVertical: 0, // removes extra vertical padding for perfect center
-  //   color: "#000",
-  // },
-  // shadow: {
-  //   shadowColor: "#000",
-  //   shadowOpacity: 0.05,
-  //   shadowRadius: 4,
-  //   shadowOffset: { width: 0, height: 2 },
-  //   elevation: 1,
-  // },
 });

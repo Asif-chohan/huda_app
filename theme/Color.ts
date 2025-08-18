@@ -6,8 +6,13 @@ export const COLORS = {
     filterGray: "#AAA29C",
     textSecondary: "#797470",
     borderColor: "#F0EAE5",
+surface:"#FDF4F0",
+strokGray:"#CFCBC8",
+primary:"#864AE3",
+redText:"#B73229",
+strokLight:"#F0EAE6",
 
-    primary: "#FFA614",
+  
     subHeading: "#23262F",
     postGray: "#777E90",
     borderLight: "#E6E8EC",

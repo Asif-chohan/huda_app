@@ -33,7 +33,7 @@ import Upload from "@/assets/images/basic/Upload.svg";
 import UploadSquare from "@/assets/images/basic/UploadSquare.svg";
 import User from "@/assets/images/basic/User.svg";
 import UserPlus from "@/assets/images/basic/UserPlus.svg";
-
+import Edit from "@/assets/images/basic/Edit.svg"
 // Onboarding
 import Onboarding1 from "@/assets/images/onboarding/Onboarding1.svg";
 import Onboarding2 from "@/assets/images/onboarding/Onboarding2.svg";
@@ -94,6 +94,7 @@ import photo from "@/assets/images/Feed/photo.svg";
 import Search from "@/assets/images/Feed/Search.svg";
 export const Assets = {
   // image,
+  Edit,
   Search,
   purpleshadow,
   photo,

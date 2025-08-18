@@ -1,8 +1,9 @@
 // components/BottomModal.tsx
 import { ReactNode } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import Button from "./Button";
-import AuthTitle from "./Title";
+import Text from "./Text";
+// import AuthTitle from "./Title";
 interface BottomModalProps {
   visible: boolean;
   onClose: () => void;
@@ -25,20 +26,29 @@ export default function BottomModal({
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
           <View style={{ alignItems: "flex-start", marginBottom: 24 }}>
-            <AuthTitle fontSize={20} title={title} />
+            <Text
+              fontFamily="regular"
+              weight={400}
+              font={15.5}
+              color="heading"
+              lineHeight={24}
+            >
+              {title}
+            </Text>
           </View>
           {children}
 
           {showApplyButton && (
             <View>
               <Button
-                paddingX={35}
+                paddingX={35.5}
+                paddingY={16}
                 title="Apply"
                 onPress={onApply || (() => {})}
               />
             </View>
           )}
-          {/* <TouchableOpacity onPress={onClose}  /> */}
+          <TouchableOpacity onPress={onClose} />
         </View>
       </View>
     </Modal>
@@ -57,7 +67,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     paddingHorizontal: 24,
     paddingTop: 32,
-    paddingBottom: 40,
+    paddingBottom: 44,
   },
   // closeArea: {
   //   height: 30,
