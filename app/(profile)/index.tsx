@@ -3,195 +3,121 @@ import Box from "@/components/Box";
 import Texts from "@/components/Text";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, TextInput } from "react-native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 // adjust to your colors file
 import BottomModal from "@/components/BottomModal";
 import { default as Button, default as Buttons } from "@/components/Button";
 import { useModal } from "@/hooks/useModal";
 import CustomModal from "@/modules/feed/components/CustomModal";
 import ProgressItem from "@/modules/profile/components/ProgressBar";
-export type PostType = {
-  id: string;
-  username: string;
-  tag: string;
-  tagColor: string;
-  time: string;
-  image: any;
-  hashtag: string;
-  title: string;
-  description: string;
-  likes: number;
-  comments: number;
-  activityType?: string;
-  type?: string;
-  contentType?: string;
-  platform?: string;
-  status?: "finished" | "want" | null;
-};
-
-const dummyPosts: PostType[] = [
-  {
-    id: "1",
-    username: "janny",
-    tag: "MOVIE BUFF",
-    tagColor: "green",
-    time: "2 hrs ago",
-    image: require("@/assets/images/image.png"), hashtag: "#beetlejuice",
-    title: "Beetlejuice Beetlejuice",
-    description: "Just watched Beetlejuice and loved it! 🎉 Michael Keaton is hilarious, and the visuals are so quirky",
-    likes: 284,
-    comments: 68,
-    platform: "Netflix",
-    status: null,
-  },
-  {
-    id: "2",
-    username: "janny",
-    tag: "MUSIC LOVER",
-    tagColor: "purple",
-    time: "2 hrs ago",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#theweeknd",
-    title: "The Weeknd Vibes ⚡",
-    description: "A weekend soundtrack powered by Blinding Lights — nonstop good energy!",
-    likes: 284,
-    comments: 68,
-    platform: "Spotify",
-    status: null,
-  },
-  {
-    id: "3",
-    username: "janny",
-    tag: "BOOK WORM",
-    tagColor: "orange",
-    time: "2 hrs ago",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#evelynhugo",
-    title: "A must-read! 📖✨",
-    description: "Just finished The Seven Husbands of Evelyn Hugo, and I’m blown away!",
-    likes: 284,
-    comments: 68,
-    platform: "Kindle",
-    status: null,
-  },
-  {
-    id: "4",
-    username: "janny",
-    tag: "BOOK WORM",
-    tagColor: "orange",
-    time: "Want to read",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#stephenking",
-    title: "Want to read",
-    description: "15 books",
-    likes: 0,
-    comments: 0,
-    activityType: "15 books",
-    status: "want",
-  },
-  {
-    id: "5",
-    username: "janny",
-    tag: "MOVIE BUFF",
-    tagColor: "green",
-    time: "Want to watch",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#got",
-    title: "Want to watch",
-    description: "25 movies",
-    likes: 0,
-    comments: 0,
-    activityType: "25 movies",
-    status: "want",
-  },
-  {
-    id: "6",
-    username: "janny",
-    tag: "GAMER",
-    tagColor: "red",
-    time: "Want to play",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#lastofus",
-    title: "Want to play",
-    description: "25 games",
-    likes: 0,
-    comments: 0,
-    activityType: "25 games",
-    status: "want",
-  },
-  {
-    id: "7",
-    username: "janny",
-    tag: "MUSIC LOVER",
-    tagColor: "purple",
-    time: "Want to listen",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#theweeknd",
-    title: "Want to listen",
-    description: "25 songs",
-    likes: 0,
-    comments: 0,
-    activityType: "25 songs",
-    status: "want",
-  },
-  {
-    id: "8",
-    username: "janny",
-    tag: "BOOK WORM",
-    tagColor: "orange",
-    time: "Finished Book",
-    image: require("@/assets/images/image.png"),
-    hashtag: "#finishedbook",
-    title: "Finished Reading",
-    description: "Read 50 books",
-    likes: 0,
-    comments: 0,
-    activityType: "50 books",
-    status: "finished",
-  },
-];
+import { dummyPosts } from "@/modules/profile/data/post";
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"posts" | "want" | "finished">("posts");
-  const [activeActivity, setActiveActivity] = useState<"auto" | "manual">("auto");
+  const [activeTab, setActiveTab] = useState<"posts" | "want" | "finished">(
+    "posts"
+  );
+  const [activeActivity, setActiveActivity] = useState<"auto" | "manual">(
+    "auto"
+  );
   const { openModal, closeModal, isModalVisible } = useModal();
   const filteredData =
     activeTab === "posts"
       ? dummyPosts.filter((p) => p.status === null)
       : activeTab === "want"
-        ? dummyPosts.filter((p) => p.status === "want")
-        : dummyPosts.filter((p) => p.status === "finished");
+      ? dummyPosts.filter((p) => p.status === "want")
+      : dummyPosts.filter((p) => p.status === "finished");
 
   return (
-    <ScrollView style={{ flex: 1, paddingTop: 50, paddingHorizontal: 16, backgroundColor: "#FDF4F0", }} contentContainerStyle={{ paddingBottom: 40 }}>
-
+    <ScrollView
+      style={{
+        flex: 1,
+        paddingTop: 50,
+        paddingHorizontal: 16,
+        backgroundColor: "#FDF4F0",
+      }}
+      contentContainerStyle={{ paddingBottom: 40 }}
+    >
       <Pressable style={styles.backIcon} onPress={() => router.back()}>
         <Assets.Back />
       </Pressable>
 
       {/* User Info Row */}
-      <Box flexDirection="row" alignItems="center" mt={28} ph={4} >
-        <Box >
+      <Box flexDirection="row" alignItems="center" mt={28} ph={4}>
+        <Box>
           <Assets.photo height={60} width={60} />
         </Box>
         <Box ml={12}>
-          <Texts font={10} lineHeight={26} fontFamily="archivoblack" weight={400} color="heading">
+          <Texts
+            font={10}
+            lineHeight={26}
+            fontFamily="archivoblack"
+            weight={400}
+            color="heading"
+          >
             @janny
           </Texts>
-          <Box ph={8} radius={16} pt={2} pb={2} borderColor="green" borderWidth={1}>
-            <Texts fontFamily="archivoblack" weight={400} font={10} color="green">
+          <Box
+            ph={8}
+            radius={16}
+            pt={2}
+            pb={2}
+            borderColor="green"
+            borderWidth={1}
+          >
+            <Texts
+              fontFamily="archivoblack"
+              weight={400}
+              font={10}
+              color="green"
+            >
               MOVIE BUFF
             </Texts>
           </Box>
         </Box>
         <Box ml="auto" alignItems="flex-end">
-          <Texts font={12.5} fontFamily="archivoblack" self="center" weight={400} lineHeight={26}>123</Texts>
-          <Texts font={10} fontFamily="medium" lineHeight={18.5} color="textSecondary">Following</Texts>
+          <Texts
+            font={12.5}
+            fontFamily="archivoblack"
+            self="center"
+            weight={400}
+            lineHeight={26}
+          >
+            123
+          </Texts>
+          <Texts
+            font={10}
+            fontFamily="medium"
+            lineHeight={18.5}
+            color="textSecondary"
+          >
+            Following
+          </Texts>
         </Box>
         <Box ml={12} alignItems="flex-end">
-          <Texts font={12.5} fontFamily="archivoblack" self="center" weight={400} lineHeight={26}>97</Texts>
-          <Texts font={10} fontFamily="medium" lineHeight={18.5} color="textSecondary">Followers</Texts>
+          <Texts
+            font={12.5}
+            fontFamily="archivoblack"
+            self="center"
+            weight={400}
+            lineHeight={26}
+          >
+            97
+          </Texts>
+          <Texts
+            font={10}
+            fontFamily="medium"
+            lineHeight={18.5}
+            color="textSecondary"
+          >
+            Followers
+          </Texts>
         </Box>
       </Box>
 
@@ -221,25 +147,19 @@ export default function ProfileScreen() {
             unit="books"
             fillColor="#EDD358"
             bgColor="#CCE5CC"
-          /></Box>
+          />
+        </Box>
       </Box>
 
       {/* Follow Button */}
       <Box mt={20} self="flex-start" ph={4}>
-
-
         <Buttons
           title="Follow"
-          onPress={() => { }}
-
+          onPress={() => {}}
           paddingX={12}
           bgColor="#DFD8D3"
           paddingY={7}
         />
-
-
-
-
       </Box>
 
       {/* Tabs */}
@@ -259,7 +179,7 @@ export default function ProfileScreen() {
               onPress={() => setActiveTab(tab as any)}
               style={{
                 paddingHorizontal: 36, // horizontal padding for each label
-                paddingVertical: 8,    // vertical padding
+                paddingVertical: 8, // vertical padding
                 borderBottomWidth: 1,
                 borderBottomColor: isActive ? "#1D1D1D" : "#CFCBC8", // heading color when active
               }}
@@ -276,12 +196,6 @@ export default function ProfileScreen() {
           );
         })}
       </Box>
-
-
-
-
-
-
 
       {/* Content */}
       <Box ph={4} mt={20}>
@@ -336,19 +250,10 @@ export default function ProfileScreen() {
               </Box>
 
               {/* Post Text */}
-              <Texts
-                mt={12}
-                font={12.5}
-                lineHeight={26}
-                fontFamily="bold"
-              >
+              <Texts mt={12} font={12.5} lineHeight={26} fontFamily="bold">
                 {item.title}
               </Texts>
-              <Texts
-                font={10}
-                lineHeight={19.5}
-                color="textSecondary"
-              >
+              <Texts font={10} lineHeight={19.5} color="textSecondary">
                 {item.description}
               </Texts>
 
@@ -366,10 +271,15 @@ export default function ProfileScreen() {
                     {item.likes}
                   </Texts>
 
-                  <Pressable onPress={() => { }}>
+                  <Pressable onPress={() => {}}>
                     <Box ml={12} flexDirection="row" alignItems="center">
                       <Assets.Chat height={20} width={20} />
-                      <Texts ml={4} font={13} fontFamily="medium" color="heading">
+                      <Texts
+                        ml={4}
+                        font={13}
+                        fontFamily="medium"
+                        color="heading"
+                      >
                         78
                       </Texts>
                     </Box>
@@ -380,14 +290,15 @@ export default function ProfileScreen() {
                 <Box flexDirection="row">
                   <Buttons
                     title="Finished"
-                    onPress={() => { }}
+                    onPress={() => {}}
                     paddingX={12}
                     paddingY={7}
+                    leftIcon={<Assets.AddCircle width={20} height={20} />}
                   />
                   <Box ml={8}>
                     <Buttons
                       title="Want"
-                      onPress={() => { }}
+                      onPress={() => {}}
                       paddingX={12}
                       paddingY={9}
                     />
@@ -439,7 +350,6 @@ export default function ProfileScreen() {
                     alignItems: "flex-start", // Match parent alignment
                     width: "100%",
                   }}
-
                 >
                   <Texts
                     font={12.5}
@@ -463,58 +373,73 @@ export default function ProfileScreen() {
             ))}
           </Box>
         )}
-
-
       </Box>
-
-
-
-
-
-
-
-
 
       <BottomModal
         visible={isModalVisible("addActivity")}
         onClose={closeModal}
-        onApply={() => { }}
+        onApply={() => {}}
         showApplyButton={false}
         title=""
       >
         {/* Modal Content */}
-        <Box >
+        <Box>
           {/* Row - Add activity */}
-          <Pressable onPress={() => {
-            closeModal(); // hide BottomModal
-            openModal("autoActivity"); // show CustomModal
-          }}>
+          <Pressable
+            onPress={() => {
+              closeModal(); // hide BottomModal
+              openModal("autoActivity"); // show CustomModal
+            }}
+          >
             <Box flexDirection="row" alignItems="center" mb={20} pv={10}>
               <Assets.postCarousel height={24} width={24} />
-              <Texts ml={16} font={12.5} lineHeight={24} fontFamily="regular" weight={400} color="heading">
+              <Texts
+                ml={16}
+                font={12.5}
+                lineHeight={24}
+                fontFamily="regular"
+                weight={400}
+                color="heading"
+              >
                 Add activity
               </Texts>
             </Box>
           </Pressable>
 
           {/* Row - Want to read */}
-          <Pressable onPress={() => {
-            router.push("/(profile)/want-read");
-            closeModal();
-          }}>
+          <Pressable
+            onPress={() => {
+              router.push("/(profile)/want-read");
+              closeModal();
+            }}
+          >
             <Box flexDirection="row" alignItems="center" mb={20} pv={10}>
               <Assets.Checklist height={24} width={24} />
-              <Texts ml={16} font={12.5} lineHeight={24} fontFamily="regular" weight={400} color="heading">
+              <Texts
+                ml={16}
+                font={12.5}
+                lineHeight={24}
+                fontFamily="regular"
+                weight={400}
+                color="heading"
+              >
                 Want to read
               </Texts>
             </Box>
           </Pressable>
 
           {/* Row - Mark as finished */}
-          <Pressable onPress={() => { }}>
+          <Pressable onPress={() => {}}>
             <Box flexDirection="row" alignItems="center" pv={10}>
               <Assets.CheckCircle height={24} width={24} />
-              <Texts ml={16} font={12.5} lineHeight={24} fontFamily="regular" weight={400} color="heading">
+              <Texts
+                ml={16}
+                font={12.5}
+                lineHeight={24}
+                fontFamily="regular"
+                weight={400}
+                color="heading"
+              >
                 Mark as finished
               </Texts>
             </Box>
@@ -522,39 +447,14 @@ export default function ProfileScreen() {
         </Box>
       </BottomModal>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <CustomModal visible={isModalVisible("autoActivity")}
-        onClose={closeModal} title="Add Activity">
-
-
+      <CustomModal
+        visible={isModalVisible("autoActivity")}
+        onClose={closeModal}
+        title="Add Activity"
+      >
         <Box flex={1} bgColor="surface" mb={44}>
           {/* Tabs */}
-          <Box flexDirection="row" mb={22}  >
+          <Box flexDirection="row" mb={22}>
             {["auto", "manual"].map((tab) => {
               const isActive = activeActivity === tab;
               return (
@@ -587,13 +487,19 @@ export default function ProfileScreen() {
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Watched Section */}
               <Box mb={24}>
-                <Texts font={15.5} lineHeight={24} fontFamily="archivoblack" weight={400} color="heading" mb={12}>
+                <Texts
+                  font={15.5}
+                  lineHeight={24}
+                  fontFamily="archivoblack"
+                  weight={400}
+                  color="heading"
+                  mb={12}
+                >
                   Watched
                 </Texts>
 
                 {/* Platforms */}
                 <Box flexDirection="row" alignItems="center" mb={16}>
-
                   <Box
                     height={48}
                     width={48}
@@ -614,7 +520,10 @@ export default function ProfileScreen() {
                     justifyContent="center"
                     alignItems="center"
                     mr={12}
-                  >  <Assets.Prime /></Box>
+                  >
+                    {" "}
+                    <Assets.Prime />
+                  </Box>
                   <Box
                     height={48}
                     width={48}
@@ -624,7 +533,8 @@ export default function ProfileScreen() {
                     alignItems="center"
                     mr={12}
                   >
-                    <Assets.Netflix /></Box>
+                    <Assets.Netflix />
+                  </Box>
                   <Box
                     height={48}
                     width={48}
@@ -633,15 +543,29 @@ export default function ProfileScreen() {
                     justifyContent="center"
                     alignItems="center"
                     mr={12}
-                  >    <Assets.Hulu /></Box>
+                  >
+                    <Assets.Hulu />
+                  </Box>
                 </Box>
 
                 {/* Horizontal List of Movies */}
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   {[
-                    { id: 1, title: "GOT", image: require("@/assets/images/image.png"), },
-                    { id: 2, title: "Harry Potter", image: require("@/assets/images/image.png"), },
-                    { id: 3, title: "It ends with us", image: require("@/assets/images/image.png") },
+                    {
+                      id: 1,
+                      title: "GOT",
+                      image: require("@/assets/images/image.png"),
+                    },
+                    {
+                      id: 2,
+                      title: "Harry Potter",
+                      image: require("@/assets/images/image.png"),
+                    },
+                    {
+                      id: 3,
+                      title: "It ends with us",
+                      image: require("@/assets/images/image.png"),
+                    },
                   ].map((item) => (
                     <Box key={item.id} mr={12} width={120}>
                       <Image
@@ -650,14 +574,21 @@ export default function ProfileScreen() {
                         resizeMode="cover"
                       />
 
-
-
-                  
-
-
-                      <Box pos="absolute" bottom={40} left={8} right={8} alignItems="center"> <Button title={"Add"} paddingX={12} paddingY={7} onPress={() => { }} />   </Box>
-
-
+                      <Box
+                        pos="absolute"
+                        bottom={40}
+                        left={8}
+                        right={8}
+                        alignItems="center"
+                      >
+                        {" "}
+                        <Button
+                          title={"Add"}
+                          paddingX={12}
+                          paddingY={7}
+                          onPress={() => {}}
+                        />{" "}
+                      </Box>
 
                       <Texts
                         mt={8}
@@ -666,7 +597,6 @@ export default function ProfileScreen() {
                         lineHeight={26}
                         weight={500}
                         color="heading"
-
                       >
                         {item.title}
                       </Texts>
@@ -677,11 +607,25 @@ export default function ProfileScreen() {
 
               {/* Listened Section */}
               <Box mb={28}>
-                <Texts font={15.5} lineHeight={24} fontFamily="archivoblack" weight={400} color="heading" mb={12}>
+                <Texts
+                  font={15.5}
+                  lineHeight={24}
+                  fontFamily="archivoblack"
+                  weight={400}
+                  color="heading"
+                  mb={12}
+                >
                   Listened
                 </Texts>
-                <Box flexDirection="row" alignItems="center" bgColor="bg" pv={15} pl={16} pr={12} radius={16}>
-
+                <Box
+                  flexDirection="row"
+                  alignItems="center"
+                  bgColor="bg"
+                  pv={15}
+                  pl={16}
+                  pr={12}
+                  radius={16}
+                >
                   <Box
                     width={40}
                     height={40}
@@ -696,27 +640,53 @@ export default function ProfileScreen() {
                   </Box>
 
                   <Box mh={16} flex={1}>
-                    <Texts font={12.5} lineHeight={26} weight={500} fontFamily="medium" color="heading">
+                    <Texts
+                      font={12.5}
+                      lineHeight={26}
+                      weight={500}
+                      fontFamily="medium"
+                      color="heading"
+                    >
                       Unlock your recent songs
                     </Texts>
-                    <Texts font={10} lineHeight={18} weight={500} fontFamily="medium" color="textSecondary">
+                    <Texts
+                      font={10}
+                      lineHeight={18}
+                      weight={500}
+                      fontFamily="medium"
+                      color="textSecondary"
+                    >
                       Connect your Spotify.
                     </Texts>
                   </Box>
-                  <Box  >  <Assets.Right height={24} width={24} /></Box>
+                  <Box>
+                    <Assets.Right height={24} width={24} />
+                  </Box>
                 </Box>
-
-
               </Box>
 
               {/* Read Section */}
-       
-                            <Box mb={28}>
-                <Texts font={15.5} lineHeight={24} fontFamily="archivoblack" weight={400} color="heading" mb={12}>
-                   Read
-                </Texts>
-                <Box flexDirection="row" alignItems="center" bgColor="bg" pv={15} pl={16} pr={12} radius={16}>
 
+              <Box mb={28}>
+                <Texts
+                  font={15.5}
+                  lineHeight={24}
+                  fontFamily="archivoblack"
+                  weight={400}
+                  color="heading"
+                  mb={12}
+                >
+                  Read
+                </Texts>
+                <Box
+                  flexDirection="row"
+                  alignItems="center"
+                  bgColor="bg"
+                  pv={15}
+                  pl={16}
+                  pr={12}
+                  radius={16}
+                >
                   <Box
                     width={40}
                     height={40}
@@ -727,33 +697,57 @@ export default function ProfileScreen() {
                     alignItems="center"
                     justifyContent="center"
                   >
-                  <Assets.GoogleBook />
+                    <Assets.GoogleBook />
                   </Box>
 
                   <Box mh={16} flex={1}>
-                    <Texts font={12.5} lineHeight={26} weight={500} fontFamily="medium" color="heading">
-                     Unlock your recent books
+                    <Texts
+                      font={12.5}
+                      lineHeight={26}
+                      weight={500}
+                      fontFamily="medium"
+                      color="heading"
+                    >
+                      Unlock your recent books
                     </Texts>
-                    <Texts font={10} lineHeight={18} weight={500} fontFamily="medium" color="textSecondary">
-                             Connect your Google books or Amazon Kindle.
+                    <Texts
+                      font={10}
+                      lineHeight={18}
+                      weight={500}
+                      fontFamily="medium"
+                      color="textSecondary"
+                    >
+                      Connect your Google books or Amazon Kindle.
                     </Texts>
                   </Box>
-                  <Box  >  <Assets.Right height={24} width={24} /></Box>
+                  <Box>
+                    <Assets.Right height={24} width={24} />
+                  </Box>
                 </Box>
-
-
               </Box>
 
               {/* Played Section */}
-  
 
-
- <Box mb={28}>
-                <Texts font={15.5} lineHeight={24} fontFamily="archivoblack" weight={400} color="heading" mb={12}>
-                          Played
+              <Box mb={28}>
+                <Texts
+                  font={15.5}
+                  lineHeight={24}
+                  fontFamily="archivoblack"
+                  weight={400}
+                  color="heading"
+                  mb={12}
+                >
+                  Played
                 </Texts>
-                <Box flexDirection="row" alignItems="center" bgColor="bg" pv={15} pl={16} pr={12} radius={16}>
-
+                <Box
+                  flexDirection="row"
+                  alignItems="center"
+                  bgColor="bg"
+                  pv={15}
+                  pl={16}
+                  pr={12}
+                  radius={16}
+                >
                   <Box
                     width={40}
                     height={40}
@@ -764,236 +758,245 @@ export default function ProfileScreen() {
                     alignItems="center"
                     justifyContent="center"
                   >
-              <Assets.Xbox />
+                    <Assets.Xbox />
                   </Box>
 
                   <Box mh={16} flex={1}>
-                    <Texts font={12.5} lineHeight={26} weight={500} fontFamily="medium" color="heading">
-                       Unlock your recent games
+                    <Texts
+                      font={12.5}
+                      lineHeight={26}
+                      weight={500}
+                      fontFamily="medium"
+                      color="heading"
+                    >
+                      Unlock your recent games
                     </Texts>
-                    <Texts font={10} lineHeight={18} weight={500} fontFamily="medium" color="textSecondary">
-                                Connect your Xbox or PlayStation.
+                    <Texts
+                      font={10}
+                      lineHeight={18}
+                      weight={500}
+                      fontFamily="medium"
+                      color="textSecondary"
+                    >
+                      Connect your Xbox or PlayStation.
                     </Texts>
                   </Box>
-                  <Box  >  <Assets.Right height={24} width={24} /></Box>
+                  <Box>
+                    <Assets.Right height={24} width={24} />
+                  </Box>
                 </Box>
-
-
               </Box>
-
-
-
             </ScrollView>
           ) : (
-            <Box flex={1} >
-      
+            <Box flex={1}>
+              {/* Search bar */}
 
+              <Box
+                flexDirection="row"
+                alignItems="center"
+                bgColor="bg"
+                radius={23}
+                ph={16}
+                height={46}
+                mb={20}
+                style={styles.shadow}
+              >
+                <Assets.Search style={{ marginRight: 8 }} />
+                <TextInput style={styles.input} placeholder="Search" />
+              </Box>
 
+              {/* OR row */}
+              <Box flexDirection="row" alignItems="center" mb={20}>
+                <Box
+                  flex={1}
+                  bgColor="strokLight"
+                  mr={15}
+                  style={{ height: 1 }}
+                />
+                <Texts
+                  font={12.5}
+                  color="textSecondary"
+                  weight={400}
+                  lineHeight={24}
+                >
+                  or
+                </Texts>
+                <Box
+                  flex={1}
+                  bgColor="strokLight"
+                  style={{ height: 1 }}
+                  ml={15}
+                />
+              </Box>
 
+              {/* Upload image */}
+              <Texts
+                font={15.5}
+                lineHeight={24}
+                fontFamily="archivoblack"
+                weight={400}
+                color="heading"
+                mb={12}
+              >
+                Upload image
+                <Texts
+                  font={12.5}
+                  fontFamily="regular"
+                  self="center"
+                  weight={400}
+                  lineHeight={26}
+                  mb={12}
+                >
+                  (optional)
+                </Texts>
+              </Texts>
 
+              {/* Upload button */}
+              <Box self="flex-start">
+                <Buttons
+                  title="Upload"
+                  onPress={() => {}}
+                  paddingX={16}
+                  paddingY={9}
+                  leftIcon={<Assets.Upload width={16} height={16} />}
+                />
+              </Box>
 
-    {/* Search bar */}
- 
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        bgColor="bg"
-        radius={23}
-        ph={16}
-        height={46}
-        mb={20}
+              {/* Select category */}
+              <Texts
+                font={15.5}
+                lineHeight={24}
+                fontFamily="archivoblack"
+                weight={400}
+                color="heading"
+                mt={28}
+                mb={12}
+              >
+                Select category
+              </Texts>
 
-        style={styles.shadow}
-      >
-        <Assets.Search style={{ marginRight: 8 }} />
-        <TextInput style={styles.input} placeholder="Search" />
-      </Box>
+              {/* Categories */}
+              <Box flexDirection="row" flexWrap="wrap">
+                {[
+                  { name: "Watched", icon: <Assets.Claspperboard /> },
+                  { name: "Read", icon: <Assets.Book /> },
+                  { name: "Listened", icon: <Assets.Music /> },
+                  { name: "Played", icon: <Assets.GamePad /> },
+                ].map((item) => (
+                  <Pressable
+                    key={item.name}
+                    style={{
+                      backgroundColor: "#fff",
+                      paddingHorizontal: 12,
+                      paddingVertical: 6,
+                      borderRadius: 40,
+                      borderWidth: 1,
+                      marginRight: 8,
+                      marginBottom: 10,
+                      borderColor: "#F0EAE6",
+                    }}
+                  >
+                    <Box flexDirection="row" alignItems="center">
+                      <Box mr={4}>
+                        <Texts>{item.icon}</Texts>
+                      </Box>
+                      <Texts
+                        font={12}
+                        lineHeight={20}
+                        weight={400}
+                        fontFamily="regular"
+                      >
+                        {item.name}
+                      </Texts>
+                    </Box>
+                  </Pressable>
+                ))}
+              </Box>
 
-    {/* OR row */}
-    <Box flexDirection="row" alignItems="center" mb={20}>
-      <Box flex={1} bgColor="strokLight" mr={15} style={{ height: 1 }} />
-      <Texts
-        font={12.5}
-        color="textSecondary"
-        weight={400}
-        lineHeight={24}
-      >
-        or
-      </Texts>
-      <Box flex={1} bgColor="strokLight" style={{ height: 1 }} ml={15} />
-    </Box>
+              {/* Headline input */}
+              <Box>
+                <TextInput
+                  placeholder="Add catch eye headline"
+                  placeholderTextColor="#797470"
+                  style={{
+                    fontSize: 16,
+                    lineHeight: 26,
+                    fontFamily: "regular",
+                    fontWeight: "400",
+                    color: "#1D1D1D",
+                  }}
+                />
+                <Box style={{ height: 1 }} bgColor="inputStroke" mv={12} />
+              </Box>
 
-    {/* Upload image */}
-    <Texts
-      font={15.5}
-      lineHeight={24}
-      fontFamily="archivoblack"
-      weight={400}
-      color="heading"
-      mb={12}
-    >
-      Upload image <Texts
-      font={12.5}
-      fontFamily="regular"
-      self="center"
-      weight={400}
-      lineHeight={26}
-      mb={12}
-    >
-      (optional)
-    </Texts>
-    </Texts>
-   
+              {/* Description input */}
+              <Box mb={12}>
+                <TextInput
+                  placeholder="Add description"
+                  placeholderTextColor="#AAA29C"
+                  multiline
+                  style={{
+                    fontSize: 16,
+                    lineHeight: 24,
+                    fontFamily: "regular",
+                    fontWeight: "400",
+                    color: "#1D1D1D",
+                    paddingVertical: 0,
+                    textAlignVertical: "top", // for multiline alignment
+                  }}
+                />
+              </Box>
 
-    {/* Upload button */}
-    <Box self="flex-start">   <Buttons
-      title="Upload"
-      onPress={() => {}}
-      paddingX={16}
-      paddingY={9}
+              {/* Tags */}
+              <Box flexDirection="row" gap={4}>
+                <Assets.AddColCirclefrom height={20} width={20} />
+                <Texts
+                  font={12.5}
+                  weight={700}
+                  lineHeight={24}
+                  fontFamily="bold"
+                  mb={8}
+                  color="primary"
+                >
+                  Add tag
+                </Texts>
 
-    /></Box>
- 
+                <Box ml={16} flexDirection="row" flexWrap="wrap" mb={20}>
+                  <Box
+                    flexDirection="row"
+                    alignItems="center"
+                    bgColor="bg"
+                    radius={40}
+                    ph={12}
+                    pv={6}
+                    mr={8}
+                    mb={8}
+                  >
+                    <Texts font={13} color="heading">
+                      #beetlejuice
+                    </Texts>
+                  </Box>
+                </Box>
+              </Box>
 
-    {/* Select category */}
-    <Texts
-      font={15.5}
-      lineHeight={24}
-      fontFamily="archivoblack"
-      weight={400}
-      color="heading"
-      mt={28}
-      mb={12}
-    >
-      Select category
-    </Texts>
-
-    {/* Categories */}
-    <Box flexDirection="row" flexWrap="wrap" >
-      {[
-        { name: "Watched", icon: <Assets.Claspperboard/> },
-        { name: "Read", icon: <Assets.Book/> },
-        { name: "Listened", icon:< Assets.Music/> },
-        { name: "Played", icon:< Assets.GamePad/> },
-      ].map((item) => (
-        <Pressable
-          key={item.name}
-          style={{
-            backgroundColor: "#fff",
-            paddingHorizontal: 12,
-            paddingVertical: 6,
-            borderRadius: 40,
-            borderWidth: 1,
-            marginRight: 8,
-            marginBottom: 10,
-            borderColor: "#F0EAE6",
-          }}
-        >
-          <Box flexDirection="row" alignItems="center">
-            <Box mr={4}>
-              <Texts >{item.icon}</Texts>
+              {/* Post button */}
+              <Buttons
+                title="Post"
+                onPress={() => {}}
+                paddingX={32}
+                paddingY={12}
+                bgColor="#B69EFF"
+              />
             </Box>
-            <Texts font={12} lineHeight={20} weight={400} fontFamily="regular">{item.name}</Texts>
-          </Box>
-        </Pressable>
-      ))}
-    </Box>
-
-    {/* Headline input */}
-{/* Headline input */}
-<Box >
-  <TextInput
-    placeholder="Add catch eye headline"
-    placeholderTextColor="#797470"
-    style={{
-      fontSize: 16,
-      lineHeight: 26,
-      fontFamily: "regular",
-      fontWeight: "400",
-      color: "#1D1D1D",
-
-    }}
-  />
-  <Box
-  style={{height:1}}
-    bgColor="inputStroke"
-    mv={12}
-  />
-</Box>
-
-{/* Description input */}
-<Box mb={12}>
-  <TextInput
-    placeholder="Add description"
-    placeholderTextColor="#AAA29C"
-    multiline
-    style={{
-      fontSize: 16,
-      lineHeight: 24,
-      fontFamily: "regular",
-      fontWeight: "400",
-      color: "#1D1D1D",
-      paddingVertical: 0,
-      textAlignVertical: "top", // for multiline alignment
-    }}
-  />
-</Box>
-
-
-
-    {/* Tags */}
-    <Texts
-      font={13}
-      fontFamily="bold"
-      mb={8}
-    >
-      Add tag
-    </Texts>
-    <Box flexDirection="row" flexWrap="wrap" mb={20}>
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        bgColor="strokLight"
-        radius={40}
-        ph={12}
-        pv={6}
-        mr={8}
-        mb={8}
-      >
-        <Texts font={13} color="heading">#beetlejuice</Texts>
-      </Box>
-    </Box>
-
-    {/* Post button */}
-    <Buttons
-      title="Post"
-      onPress={() => {}}
-      paddingX={12}
-      paddingY={12}
-      bgColor="#B69EFF"
-    />
-
-
-
-
-   </Box>
-        
           )}
         </Box>
       </CustomModal>
-
-
-
-
-
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   backIcon: {
-
     paddingVertical: 12,
   },
   followButton: {
@@ -1004,8 +1007,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     alignSelf: "flex-start",
   },
-    input: {
-
+  input: {
     fontSize: 16,
     paddingVertical: 0,
     color: "#000",

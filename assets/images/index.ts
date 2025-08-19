@@ -92,8 +92,10 @@ import UserTab from "@/assets/images/tab/UserTab.svg";
 import purpleshadow from "@/assets/images/Feed/color.svg";
 import photo from "@/assets/images/Feed/photo.svg";
 import Search from "@/assets/images/Feed/Search.svg";
+import AddColCirclefrom from "@/assets/images/Feed/AddColCircle.svg"
 export const Assets = {
   // image,
+  AddColCirclefrom,
   Edit,
   Search,
   purpleshadow,

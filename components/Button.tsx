@@ -1,4 +1,6 @@
+import { ReactNode } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import Box from "./Box";
 
 interface Props {
   title: string;
@@ -8,6 +10,7 @@ interface Props {
   paddingY?: number;
   bgColor?: string;
   ml?: number; // optional margin left
+  leftIcon?: ReactNode;
 }
 
 export default function AuthButton({
@@ -18,6 +21,7 @@ export default function AuthButton({
   paddingY,
   bgColor,
   ml,
+  leftIcon,
 }: Props) {
   return (
     <TouchableOpacity
@@ -32,7 +36,10 @@ export default function AuthButton({
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <Box flexDirection="row" alignItems="center" justifyContent="center">
+        {leftIcon && <Box style={styles.icon}>{leftIcon}</Box>}
+        <Text style={styles.buttonText}>{title}</Text>
+      </Box>
     </TouchableOpacity>
   );
 }
@@ -55,6 +62,9 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.6,
+  },
+  icon: {
+    marginRight: 4,
   },
   buttonText: {
     lineHeight: 24,
