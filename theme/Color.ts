@@ -42,6 +42,7 @@ export const COLORS = {
     whiteLight: "rgba(255,255,255,0.35)",
     shadowIos: "#060C3B",
     headerTxt: "#0A0A0A",
+    purple: "#864AE3",
 
     postGraySecondary: "#777E90",
     modalOverlay: "rgba(0,0,0,0.5)",

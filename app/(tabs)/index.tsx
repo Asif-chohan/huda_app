@@ -4,29 +4,30 @@ import Texts from "@/components/Text";
 
 import { Assets } from "@/assets/images";
 
-import React, { useState } from "react";
 import { useModal } from "@/hooks/useModal";
-import AddFriendModal from "@/modules/feed/components/AddFriendModal";
-import FiltrationModal from "@/modules/feed/components/FiltrationModal";
-import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
-import CommentsModal from "@/modules/feed/components/CommentItem";
 import { useToggleSwitches } from "@/hooks/useToggleSwitches";
+import AddFriendModal from "@/modules/feed/components/AddFriendModal";
+import CommentsModal from "@/modules/feed/components/CommentItem";
+import FiltrationModal from "@/modules/feed/components/FiltrationModal";
 import { PostType } from "@/types/feed";
+import React, { useState } from "react";
+import { FlatList, Image, Pressable, StyleSheet, View } from "react-native";
 
+import SearchInput from "@/components/Location/SearchInput";
+import { FilterChip } from "@/modules/feed/components/FilterChip";
 import {
-  forYouData,
-  trendingData,
-  topPicksData,
-  dummyComments,
   activities,
   contents,
-  platforms,
+  dummyComments,
+  forYouData,
   friendsList,
+  platforms,
+  topPicksData,
+  trendingData,
 } from "@/modules/feed/data/feed";
 import { useFeedFilters } from "@/modules/feed/hooks/useFilter";
-import { FilterChip } from "@/modules/feed/components/FilterChip";
 
-export default function FeedScreen() {
+export default function FeedScreen({ showSearch= false }) {
   const applyFilters = () => {
     //  apply  the filter logic
   };
@@ -266,7 +267,16 @@ export default function FeedScreen() {
           </Pressable>
         </Box>
       </Box>
-
+      {showSearch && (
+        <Box
+          width={"90%"}
+          mb={"2%"}
+          mt={"7%"}
+          style={{ marginHorizontal: "auto" }}
+        >
+          <SearchInput />
+        </Box>
+      )}
       {/* Tab Row + Selected Filters */}
       <Box
         flexDirection="row"

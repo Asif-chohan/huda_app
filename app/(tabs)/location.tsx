@@ -1,14 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import FeedScreen from ".";
 
 const Location = () => {
   return (
-    <View>
-      <Text>Location</Text>
-    </View>
+    <FeedScreen showSearch={true} />
   );
 };
 
 export default Location;
-
-const styles = StyleSheet.create({});
