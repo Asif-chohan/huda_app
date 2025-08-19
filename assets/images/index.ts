@@ -12,6 +12,7 @@ import Claspperboard from "@/assets/images/basic/Clapperboard.svg";
 import Close from "@/assets/images/basic/Close.svg";
 import Compass from "@/assets/images/basic/Compass.svg";
 import Down from "@/assets/images/basic/Down.svg";
+import Edit from "@/assets/images/basic/Edit.svg";
 import EyeClosed from "@/assets/images/basic/EyeClosed.svg";
 import GamePad from "@/assets/images/basic/Gamepad.svg";
 import GraphUp from "@/assets/images/basic/GraphUp.svg";
@@ -33,7 +34,6 @@ import Upload from "@/assets/images/basic/Upload.svg";
 import UploadSquare from "@/assets/images/basic/UploadSquare.svg";
 import User from "@/assets/images/basic/User.svg";
 import UserPlus from "@/assets/images/basic/UserPlus.svg";
-import Edit from "@/assets/images/basic/Edit.svg"
 // Onboarding
 import Onboarding1 from "@/assets/images/onboarding/Onboarding1.svg";
 import Onboarding2 from "@/assets/images/onboarding/Onboarding2.svg";
@@ -89,12 +89,17 @@ import UserTab from "@/assets/images/tab/UserTab.svg";
 // feed
 
 // import image from "@/assets/images/Feed/image.png";
+import AddColCirclefrom from "@/assets/images/Feed/AddColCircle.svg";
+import ArrowIn from "@/assets/images/Feed/ArrowIn.svg";
+import ArrowOut from "@/assets/images/Feed/ArrowOut.svg";
 import purpleshadow from "@/assets/images/Feed/color.svg";
 import photo from "@/assets/images/Feed/photo.svg";
 import Search from "@/assets/images/Feed/Search.svg";
-import AddColCirclefrom from "@/assets/images/Feed/AddColCircle.svg"
+
 export const Assets = {
   // image,
+  ArrowOut,
+  ArrowIn, 
   AddColCirclefrom,
   Edit,
   Search,
